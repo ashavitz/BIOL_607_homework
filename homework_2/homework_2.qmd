@@ -1,0 +1,163 @@
+---
+title: "homework_2"
+author: "Aaron Shavitz"
+format: html
+---
+# Homework 2: Data Visualization  
+
+## 1. Start  
+**Some setup. Run the code below.**  
+```{r}
+# libraries - if they don't load
+# install.packages("tidyverse")
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+
+theme_set(theme_bw(base_size=12))
+
+ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") %>%
+  mutate(Month_Name = factor(Month_Name),
+         Month_Name = fct_reorder(Month_Name, Month))
+
+```
+
+
+**Show that it worked by showing the basic properties of the data.**  
+```{r}
+str(ice)
+summary(ice)
+```
+
+
+__________________
+**Note:** Setting titles and subtitles to center by default
+```{r}
+theme_set(theme_bw(base_size=12) +
+          theme(plot.title = element_text(hjust=0.5),
+                plot.subtitle = element_text(hjust=0.5)))
+```
+
+## 2. Boxplots  
+**Make a boxplot showing the variability in sea ice extent every month. IYKYK make it fancy.**  
+```{r}
+ggplot(data = ice,
+       mapping = aes(x = Month_Name,
+                     y = Extent)) +
+  geom_boxplot() +
+  labs(
+    x = "Month",
+    y = "Sea Ice Extent (10^6 km^2)",
+    title = "Sea Ice Extent Reaches Upper and Lower Limits Around the Equinoxes"
+  )
+```
+
+## 3. Ridgelines
+**Use ggridges to do the same thing.**  
+```{r}
+library(ggridges)
+
+ggplot(data = ice,
+       mapping = aes(x = Extent,
+                     y = fct_rev(Month_Name), # put January at top
+                     fill = Month_Name)) +
+  geom_density_ridges(alpha = 0.7) +
+  labs(
+    x = "Sea Ice Extent (10^6 km^2)",
+    y = "Month",
+    title = "Sea Ice Extent Reaches Upper and 
+    Lower Limits Around the Equinoxes"
+  )
+```
+
+
+**What do you learn that is different than the boxplot?**  
+The ridgeline plot provides a better sense of the distribution than the boxplot. However, the boxplot includes the median by default, a useful summary statistic.  
+
+
+## 4. Making Groups from the Continuous
+**Try cut_interval(1:10, n = 5)**  
+```{r}
+cut_interval(1:10, n = 5)
+```
+
+**With the original data, plot sea ice by year, with different lines (oh! What geom will you need for that?) for different months.**  
+```{r}
+ice_plot <- ggplot(data = ice,
+       mapping = aes(x = Year, 
+                     y = Extent, 
+                     group = Month_Name, 
+                     color = Month_Name)) +
+  geom_line()
+
+ice_plot
+```
+
+**Then, use facet_wrap and cut_interval(Month, n=4) to split the plot into seasons.**  
+```{r}
+seasonal_ice_plot <- ice_plot +
+  geom_line() +
+  facet_wrap(~cut_interval(Month, n=4)) +
+  labs(title = "Annual Sea Ice Extent by Month",
+       subtitle = "Grouped by Season",
+       y = "Extent (10^6 km^2)")
+
+seasonal_ice_plot
+```
+
+## 5. Use That Color!
+**Last, make a line plot of sea ice by month with different lines as different years. Gussy it up with colors by year, a different theme, critical values, and whatever other annotations, changes to axes, etc., you think best show the story of this data. For ideas, see the lab, and look at various palettes around. Extra credit for using colorfindr to make a palette.**  
+```{r}
+library(ggthemes) # for economist theme
+library(paletteer) # for color pallette
+
+annual_ice_plot <- ggplot(data = ice,
+       mapping = aes(x = Month_Name,
+                     y = Extent,
+                     group = Year,
+                     color = Year)) +
+  geom_line() +
+  labs(title = "Arctic Sea Ice 1978-2016",
+       x = "Month",
+       y = "Extent (10^6 km^2)") +
+  guides(color = guide_colorbar(reverse = TRUE)) +
+  theme_economist() +
+  theme(plot.title = element_text(hjust=0.5),
+        axis.title.y = element_text(margin = margin(r = 10)), # margin space for axis labels
+        axis.title.x = element_text(margin = margin(t = 10)),
+        legend.position = "right") +
+  scale_color_paletteer_c("ggthemes::Blue") +
+  scale_x_discrete(expand = c(0,0)) # got rid of padding in x axis.
+
+annual_ice_plot
+```
+I chose the ggthemes::Blue, which I found via [r-charts.com](https://r-charts.com/color-palettes/), because it created a gradient from near white to darker blue. I feel this visually communicates the melting of ice.
+
+I also looked up how to reverse the direction of the colorbar in the legend, so that it aligned with the gradient seen in the data.
+
+
+## Impress Yourself with Knowledge You Conquered 1. gganimate
+```{r}
+library(gganimate)
+
+annual_ice_plot +
+  transition_states(Year) +
+  shadow_mark()
+```
+
+## Meta 1.  
+**We are now generating figures and imagery. It’s something that blends creativity, abstract thinking, and quantiative abilities. How confident were you in thinking about making figures before this week versus after grappling with ggplot and the grammar of graphics philosophy?**  
+Prior to this past week I was not confident at all, and was a bit intimidated that we were jumping immediately into making figures (although also excited). After this past week, I can clearly see how accessible it can be to make exploritory graphs, but I'll admit that getting a graph to be exactly how you want it in its final version is still quite daunting and I am not so confident. I found with the homework that 90% of my time was spent trying to learn how to tweat my graph in to look how I wanted it to look.  
+
+## Meta 2.  
+**What’s your favorite think about data visualization?**  
+Just being able to explore data visually and see trends and patterns.  
+
+## Meta 3.  
+**How much time did this take you, roughly? I’m trying to keep track that these assignments aren’t killer, more than anything.**  
+Honestly? I spent like 5+ hours on this. But a lot of it was just tweaking and messing around and exploring. I imagine I could have completed the basics of the assignment in under 2 hours, but I wouldn't have learned as much.  
+
+## Meta 4.  
+**Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.**  
+Strong. I realize I didn't complete all the extra credit pieces, but I believe I was thorough with the main goals of the assignment, and did go a bit beyond by investigating display customization and exploring the animation.
