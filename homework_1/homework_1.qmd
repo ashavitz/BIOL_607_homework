@@ -1,0 +1,102 @@
+---
+title: "homework_1"
+author: "Aaron Shavitz"
+format: html
+---
+
+# Homework 1: Intro to R!  
+
+## Exploring the quakes dataset  
+
+**Load quakes with data(quakes). Show what’s there with str() and summary(). What do you see?**  
+
+```{r}
+data(quakes) # load the quakes dataset
+str(quakes)
+```
+Examining the structure of the quakes dataset with str() shows us that the dataset contains:  
+
+- 1000 total observations  
+- 5 variables  
+  - lat (numeric)  
+  - long (numeric)  
+  - depth (integer)  
+  - mag (numeric)  
+  - stations (integer)  
+```{r}
+summary(quakes)
+```
+Examining the summary data of the dataset with summary() shows us the minimum, 1st quartile, median, mean, 3rd quartile, and maximum values.  
+
+**Show the entirety of the column long.**  
+```{r}
+quakes$long
+```
+
+**What unique stations are there? Use length() with unique() to determine how many stations there. are.**  
+```{r}
+length(unique(quakes$stations))
+```
+There are 102 unique stations in the quakes dataset  
+
+**Using range(), what is the range of depths where quakes occur?**  
+```{r}
+range(quakes$depth)
+```
+The range of depths where quakes occur is 40km to 680km.  
+I know these values are in km based on [rdocumentation.org - quakes: Locations of Earthquakes off Fiji](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/quakes)  
+
+**Where was the earthquake of largest magnitude found? You’ll need to use come comparisons and the max() function for this in your indices instead of a number!**
+```{r}
+quakes[quakes$mag == max(quakes$mag), c(1,2)]
+```
+The earthquake with the largest magnitude was found at lat: -15.56, long: 167.62  
+
+
+## A Little LaTeX
+
+**Take it for a test drive. Put the following equation in your markdown: 𝑥=𝜇**  
+$𝑥=𝜇$  
+
+**What’s the difference between wrapping your equation in $ versus two $? Show an example with 𝑌𝑖=3𝑋𝑖 done both ways.**  
+
+Just one $ on either side places the equation in line, while two on either side displays the equation centered below. Examples:  
+
+With just $  
+$𝑌_𝑖=3𝑋_𝑖$  
+
+With two $  
+$$𝑌_𝑖=3𝑋_𝑖$$  
+
+
+**Try out superscripts. Code up 𝑎2=𝑏2+𝑐2**  
+
+$𝑎^2=𝑏^2+𝑐^2$  
+
+**Impress Yourself. Write out the notation for a normal distribution that looks like [denoted in homework].**  
+
+$y_i∼\mathcal{N}(\hat{y}_i,σ^2)$  
+
+Here I discovered \\mathcal{} from [Overleaf - Mathematical_fonts](https://www.overleaf.com/learn/latex/Mathematical_fonts), which allowed me to display the $N$ as $\mathcal{N}.$ The remaining formatting guidance I used was available in the resources provided in the homework.
+
+
+## Meta Questions  
+
+**Meta 1. For some of you, this week was your first experience with R (or even programming at all) - how did it feel to connect concepts to a novel set of problems. For those who have experience with R, was this a cakewalk or challenging? How did it feel to shake off the cobwebs?**  
+
+I have minimal experience with R. It was fun to shake off the cobwebs, and Quarto and LaTeX were new to me. Working with Quarto is exciting because it seems like an excellent way to communicate the work accomplished.  
+
+
+**Meta 2. Sometimes I throw in new concepts in homework that I expect you to look into a little bit, like the LaTeX. It’s something small enough that I think you can do it outside of class. How was the LaTeX part of the homework for you? Do you see its future application?**  
+
+LaTeX was interesting, and not too difficult to grasp the concepts. It seems like something I won't dig into much until I have an applied need, but I definitely see where it will be helpful/necessary - e.g. when I want to communicate information regarding mathematical procedures.  
+
+
+**Meta 3. How much time did this take you, roughly?**  
+
+Roughly an hour, maybe a bit more when I add in getting settled, setting up, etc.  
+
+
+**Meta 4. Please give yourself a weak/sufficient/strong assessment on this assignment. Feel free to comment on why.**  
+
+Strong. I feel I understood the concepts introduced and was able to execute and effectively communicate everything that was asked in the assignment.
