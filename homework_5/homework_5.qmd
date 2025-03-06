@@ -2,6 +2,7 @@
 title: "homework_5"
 author: "Aaron Shavitz"
 format: html
+link to github repo: https://github.com/ashavitz/BIOL_607_homework/tree/main
 ---
 # Correlation And Regression Homework  
 ```{r}
