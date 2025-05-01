@@ -23,14 +23,14 @@ library(readr)
 # ---
 
 # Load each SST df, adding column for site name
-sst_data_dh <- read_csv("data/sst_data_dh.csv") |> mutate(site = "duck_harbor")
-sst_data_fg <- read_csv("data/sst_data_fg.csv") |> mutate(site = "fort_getty")
-sst_data_fi <- read_csv("data/sst_data_fi.csv") |> mutate(site = "fire_island")
-sst_data_gb_proxy <- read_csv("data/sst_data_gb_proxy.csv") |> mutate(site = "great_bay_proxy")
-sst_data_pb <- read_csv("data/sst_data_pb.csv") |> mutate(site = "pleasant_bay")
-sst_data_pi <- read_csv("data/sst_data_pi.csv") |> mutate(site = "prudence_island")
-sst_data_ti <- read_csv("data/sst_data_ti.csv") |> mutate(site = "tingles_island")
-sst_data_wb <- read_csv("data/sst_data_wb.csv") |> mutate(site = "west_beach")
+sst_data_dh <- read_csv("final_project/data/sst_data_dh.csv") |> mutate(site = "duck_harbor")
+sst_data_fg <- read_csv("final_project/data/sst_data_fg.csv") |> mutate(site = "fort_getty")
+sst_data_fi <- read_csv("final_project/data/sst_data_fi.csv") |> mutate(site = "fire_island")
+sst_data_gb_proxy <- read_csv("final_project/data/sst_data_gb_proxy.csv") |> mutate(site = "great_bay_proxy")
+sst_data_pb <- read_csv("final_project/data/sst_data_pb.csv") |> mutate(site = "pleasant_bay")
+sst_data_pi <- read_csv("final_project/data/sst_data_pi.csv") |> mutate(site = "prudence_island")
+sst_data_ti <- read_csv("final_project/data/sst_data_ti.csv") |> mutate(site = "tingles_island")
+sst_data_wb <- read_csv("final_project/data/sst_data_wb.csv") |> mutate(site = "west_beach")
 
 # Bind data vertically
 sst_data <-
@@ -86,14 +86,14 @@ ggplot(sst_summer,
 # ---- Load and Organize SeagrassNet Data ----
 
 # Load each SeagrassNet df, adding column for site name
-dh_data <- read_csv("data/MA20.1.csv") |> mutate(site = "duck_harbor")
-fg_data <- read_csv("data/RN31.1.csv") |> mutate(site = "fort_getty")
-fi_data <- read_csv("data/NY41.1.csv") |> mutate(site = "fire_island")
-gb_data <- read_csv("data/NH9.2.csv") |> mutate(site = "great_bay_proxy")
-pb_data <- read_csv("data/MA20.2.csv") |> mutate(site = "pleasant_bay")
-pi_data <- read_csv("data/RN31.2.csv") |> mutate(site = "prudence_island")
-ti_data <- read_csv("data/MD12.2.csv") |> mutate(site = "tingles_island")
-wb_data <- read_csv("data/MS45.1.csv") |> mutate(site = "west_beach")
+dh_data <- read_csv("final_project/data/MA20.1.csv") |> mutate(site = "duck_harbor")
+fg_data <- read_csv("final_project/data/RN31.1.csv") |> mutate(site = "fort_getty")
+fi_data <- read_csv("final_project/data/NY41.1.csv") |> mutate(site = "fire_island")
+gb_data <- read_csv("final_project/data/NH9.2.csv") |> mutate(site = "great_bay_proxy")
+pb_data <- read_csv("final_project/data/MA20.2.csv") |> mutate(site = "pleasant_bay")
+pi_data <- read_csv("final_project/data/RN31.2.csv") |> mutate(site = "prudence_island")
+ti_data <- read_csv("final_project/data/MD12.2.csv") |> mutate(site = "tingles_island")
+wb_data <- read_csv("final_project/data/MS45.1.csv") |> mutate(site = "west_beach")
 
 
 # Bind data vertically
