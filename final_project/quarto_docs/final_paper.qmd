@@ -28,19 +28,22 @@ knitr::read_chunk("../scripts/system_dag.R")
 
 ### Introduction  
 - Relevant background  
+[@plaisted_influence_2022]
 - Core question(s) and hypotheses  
 
 
-### Data Sources  
-
-Data 
 
 ### Methods  
 
-- 
+
+#### Data Sources  
+- NOAA Coastwatch JPL
 
 
 #### Description of Design  
+
+- DAG
+[@correia_designing_2025]
 
 From Jarrett's Paper: "By including the subregional
 averages over time, the confounding signal from these and
