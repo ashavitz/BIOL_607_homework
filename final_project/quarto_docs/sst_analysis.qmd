@@ -1,0 +1,63 @@
+---
+title: "SST Analysis"
+author: "Aaron Shavitz"
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+    code-summary: "Show code"
+---
+
+```{r, echo=FALSE}
+# Using knitr package to read code chunks from sst_anaysis.R
+
+# Set the root directory to the current folder
+knitr::opts_knit$set(root.dir = here::here())
+
+# Read in the R script from the 'scripts' folder (relative to the root project directory)
+knitr::read_chunk("../scripts/sst_analysis.R")
+```
+
+### SST Impact on Northeastern US Eelgrass Cover - Analysis
+Data source details:
+```{r Header}
+```
+
+### Load Libraries
+```{r Load Libraries, message=FALSE, warning=FALSE}
+```
+
+### Set Global ggplot Themes
+```{r Set Global ggplot Themes, message=FALSE, warning=FALSE}
+```
+
+### Load and Organize SST Data
+```{r Load and Organize SST Data, message=FALSE, warning=FALSE}
+```
+
+### Load and Organize Data from Plaisted et al. 2022
+```{r Load and Organize Data from Plaisted et al. 2022, message=FALSE, warning=FALSE}
+```
+
+### Compare CoastWatch SST to Plaisted et al. 2022 Temperature Data
+```{r Compare CoastWatch sst to Plaisted et al. 2022 Temperature Data, message=FALSE, warning=FALSE}
+```
+
+
+THINGS ARE MISSING
+
+### Prepare Data for Causal Modeling
+```{r Prepare Data for Causal Modeling, message=FALSE, warning=FALSE}
+```
+
+### Aggregated Percent Cover Model
+```{r Aggregated Percent Cover Model, message=FALSE, warning=FALSE}
+```
+
+### Quadrat Presence Absence Model
+```{r Quadrat Presence Absence Model, message=FALSE, warning=FALSE}
+```
+
+### Quadrat Percent Cover *Given Coverage* Model
+```{r Quadrat Percent Cover *Given Coverage* Model, message=FALSE, warning=FALSE}
+```

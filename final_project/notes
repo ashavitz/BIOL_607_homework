@@ -1,3 +1,12 @@
+TODO: 
+- Add summary information (slope, se, etc.) to slides
+- Finish cutomizing plots
+- Clean up and complete assumption checks
+  - Anything to include in presentation?
+- Clean presentation and reherse
+- Add/find references
+
+
 - NDBC data from geographically relevant buoys was too short and too recent for many buoys 
 (e.g. Cape Cod Bay 44090, CHTM3, etc.)
 - A similar analysis has been completed (Plaisted et al. 2022) using Buoy data, but given limited 
@@ -35,16 +44,20 @@
     
   - TWO Types of models I can build: 
     - Percent cover is aggregated at the site level, and thus site random effects are not needed
-      becuase of Mundlak approach (centered temp). Predictors/fixes effects are centered temp, 
+      becuase of Mundlak approach (centered temp). Predictors/fixed effects are centered temp, 
       site mean temp (those two are Mundlak), and random effects are year
     - Percent cover is at the quadrat levels, thus site random effects are needed. Predictors/fixed
       effects are thus centered temp, site mean temp (I think?), and random effects are quadrat, 
       year?, (and site?? or only if site mean temp isn't included?)
   
-  
-    
-
-
+Power analysis:
+ONLY DO THIS BEFORE ANALYSIS, AND NOT USING YOUR MODEL DATA. FOR EXPERIMENTAL DESIGN:
+P VALUES AND POWER ANALYSIS:
+- What do I want to use for a p-value cutoff (alpha)? 
+- What do I want for my power (and corresponding beta)
+- Try to calculate power based on my determined alpha (likely 0.05)
+  - Can use Mudge's Optimal Alpha if I'm not worried more about alpha or beta... maybe
+    - Balances between alpha and beta
 
 Questions: 
 - Plaisted 2022 only used the shallowest transects. Could I do this analysis with other transects?
@@ -73,4 +86,16 @@ ARCHIVE - NOT UP TO DATE BUT DIDN'T WANT TO DELETE MY THINKING:
     Should I only include percent cover from summer percent cover measurements?
   - Do I need to average by quadrat within each year, so there's only one measurement per
     quadrat per year?
+    
+    
+Questions: 
+- When I fit a polynomial spline GAM, how do you determine the number of parameters/splines?
+  - 
+- Can you still apply model comparison in casual analysis?
+  - If so, can I fit multiple models with temp as predictor (e.g. poly sline vs linear) and
+    see which is best?
+  - Or does this only work for prediction, not causality
+  - [LOOKS LIKE NO?]
+  
+STATE ASSUMPTIONS EXPLAINING WHY YOU'RE MAKING MODELS THE WAY YOU'RE MAKING THEM!!
 
