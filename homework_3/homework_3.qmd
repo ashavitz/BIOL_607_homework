@@ -1,0 +1,259 @@
+---
+title: "homework_3"
+author: "Aaron Shavitz"
+format: html
+---
+
+# Homework 3 Tidy Data Homework
+
+### Packages used for the homework are loaded here, in order of use  
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+## 1. Load me
+**Use the readr library (and URL) to load in the data. Show me that you can do it both without downloading it and if you download it.**  
+```{r}
+# Load the data in without downloading it
+kelp_data <- read_csv("https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true")
+
+# Load he data in with downloading it
+setwd(here::here()) # set working directory to current project folder
+# getwd()
+download.file("https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true", "data/kelp_data")
+kelp_data <- read_csv("data/kelp_data")
+```
+
+
+# 2. Format
+**Take a look at the data in any way you see fit to be able to tell me if the data is in a wide or long format. Justify your answer.** 
+```{r}
+str(kelp_data)
+head(kelp_data, n = 20)
+# View(kelp_data)
+```
+The data is in **long** format. The data frame is organized in which multiple rows are the same transect on the same day, with each row containing information on the details of various species. If the data were in wide format, there would only be one line for each transect on each day, and there would be separate columns for the percent cover of each species.  
+
+
+# 3. Check it out.  
+**Let’s learn a bit about who is doing what using group_by(), summarize(), and n_distinct().**  
+
+## 3a. How many sites has each PI done?  
+```{r}
+kelp_data |> 
+# group data frame by the PI
+  group_by(PI) |> 
+# get the total number of distinct sites per PI
+  summarize(unique_sites = n_distinct(SITE, na.rm = TRUE))
+```
+Based on the output above, the total number of sites examined by each PI is summarized in Table 1:  
+
+|    PI      | Unique Sites |
+|------------|--------------|
+| Byrnes     | 7            |
+| Dijkstra   | 1            |
+| Grabowski  | 1            |
+| Humphries  | 2            |
+| Hurricane  | 2            |
+| Pemaquid   | 1            |  
+
+: **Table 1:** Number of unique sites per PI  
+
+
+## 3b. How many years of data does each site have? Show it in descending order.  
+```{r}
+kelp_data |> 
+# group data frame by site
+  group_by(SITE) |> 
+# get the total number of distinct years per site
+  summarize(years_of_data = n_distinct(YEAR, na.rm = TRUE)) |> 
+# arrange the data in descending order
+  arrange(desc(years_of_data))
+```
+Based on the output above, the total number of years of data at each site is summarized in Table 2:  
+
+| Site               | Years of Data |
+|--------------------|--------------|
+| NE Appledore      | 7            |
+| NW Appledore      | 7            |
+| SW Appledore      | 7            |
+| Fort Weatherill   | 6            |
+| Baker North       | 5            |
+| Baker South       | 5            |
+| Nahant            | 5            |
+| Calf Island       | 4            |
+| Little Brewster   | 4            |
+| Hurricane Island  | 3            |  
+| King's Beach	    | 3			       |
+| Nubble Lighthouse	| 3		 	       |
+| Pemaquid	        | 2 			     |
+| Schoodic	        | 1			       |  
+
+
+: **Table 2:** Years of data by site  
+
+## 3c. Impress yourself - can you make a figure showing which site was sampled when? There are a lot of ways to do this. Sometimes I use slice(), but I’m sure there are more elegant solutions. For data viz, you can use geoms you’ve used before, or new ones, like geom_tile() or whatever you think would be interesting!  
+```{r}
+# create plot of kelp_data, month on x axis, site name on y axis and as fill color
+ggplot(kelp_data,
+       mapping = aes(x = as.factor(MONTH),
+                     y = SITE,
+                     fill = SITE)) +
+  geom_tile() +
+  facet_grid(~YEAR) + # facet by year in grid to represent timeline
+  theme_dark() +
+  scale_fill_viridis_d() +
+# convert numeric month names to abbreviated month names
+  scale_x_discrete(labels = c("6" = "Jun", "7" = "Jul", "8" = "Aug", "9" = "Sep")) +
+# format title and axes, remove legend
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        axis.text.x = element_text(angle = 90, hjust = 0.5, size = 6),
+        legend.position = "none") +
+  labs(title = "Sampling Timeline", x = NULL, y = "Sampling Site", fill = "Sampling Site") 
+
+```
+
+
+# 4. Let’s look at some kelp!  
+
+## 4a. This is a big unwieldy dataset.  
+**Let’s trim it down to the columns, YEAR, SITE, TRANSECT, PERCENT_COVER, and FAMILY, and SPECIES.**  
+```{r}
+kelp_data_small <- select(kelp_data, YEAR, SITE, TRANSECT, PERCENT_COVER, FAMILY, SPECIES)
+```
+## 4b. Let’s make it even simpler.  
+**Trim the data down so the only species we are looking at are in the family “Laminariaceae”. After that, you can ditch the FAMILY column.**
+```{r}
+kelp_data_lam <- kelp_data_small |> 
+  filter(FAMILY == "Laminariaceae") |> 
+  select(-FAMILY)
+```
+## 4c.  
+**For each species is there only one measurement per species [per] transect each year? Or do we need to worry…… Note, this is a common data check you should be doing if you have a large complex data set!**
+```{r} 
+# group kelp_data df by year, site, transect, species
+# to isolate species at each transect in a single year
+kelp_data_lam |> 
+  group_by(YEAR, SITE, TRANSECT, SPECIES) |> 
+# summarize data, showing the count for each species at each transect in each year
+  summarize(count = n()) |> 
+# remove NA species names if present, and filter to only show any rows
+# with more than 1 of the same species observation.
+  filter(!is.na(SPECIES), count != 1) |> 
+  ungroup()
+```
+There is not always only one measurement per species per transect each year. If there were only one, then the filter `count != 1` would have generated an empty summary table.
+
+
+## 4d. HAHA that was a trick.  
+**I knew there sometimes was more than one. That’s because some of these are measurements of juveniles and some are adults. OK - sum up the cover for each species on each transect so that we only have one measurement per species (adults and juveniles together!)**
+```{r}
+kelp_data_lam <- kelp_data_lam |> 
+  group_by(YEAR, SITE, TRANSECT, SPECIES) |> 
+  summarize(species_percent_cover = sum(PERCENT_COVER))|> 
+  ungroup()
+```
+## 4e. Neat! 
+**Make a plot showing the timeseries of kelps at each site. You’ll want stat_summary() here. You might even need it twice because - note - stat_summary() has a geom argument where you can do things like “line”. What might that do? Check it out! Facet this plot by species, so we can see the trajectory of each. Feel free to gussy this plot up however you would like (or not).**
+
+```{r}
+# create a plot with year on the x axis, species_percent_cover on the y axis
+# color lines by site
+ggplot(data = kelp_data_lam,
+       mapping = aes(x = YEAR,
+                     y = species_percent_cover,
+                     color = SITE)) +
+# plot a line of the annual mean of species_percent_cover by site
+  stat_summary(fun = mean, geom = "line") +
+  stat_summary(fun = mean, geom = "point") +
+  facet_grid(~SPECIES)
+```
+
+**Do you notice anything? Comment!**  
+It appears Saccharina latissima covers a lot more area at these sites than Laminaria digitata, and in fact Laminaria digitata is not present at a lot of sites. It also appears that the percent cover of Saccharina latissima has generally been declining at most sites, except perhaps at NE Appledore.  
+
+
+# 5. Wide relationships  
+**Let’s look at the relationship between two of the species here. Lexi made me do this, I swear. She made me think about tradeoffs in our weekly meeting last week, so now you all have this problem.**  
+
+## 5a. If we want to look at the relationships between species, we need a wide data set. Use pivot_wider() to make species into columns with percent cover as your values. Note - be careful to fill in NAs as 0s.
+```{r}
+# use pivot_wider() to make species into columns, with percent cover as value
+kelp_data_lam_wide <- 
+  pivot_wider(kelp_data_lam,
+              names_from = SPECIES,
+              values_from = species_percent_cover,
+              values_fill = 0) # make NAs into 0
+
+# rename species columns so they do not have a space
+kelp_data_lam_wide <- 
+  kelp_data_lam_wide |> 
+    rename(saccharina_latissima = `Saccharina latissima`,
+           laminaria_digitata = `Laminaria digitata`)
+```
+
+## 5b. Neat! Is there a relationship between Saccharina latissima and Laminaria digitata? Plot it. As a preview for 2 weeks from now, add a line to your ggplot stat_smooth(method = "lm"). Also, remember that you will need backticks ` around variables with spaces in them. What do you think? Feel free to use any other geoms or explore however you like here.
+```{r}
+ggplot(data = kelp_data_lam_wide, 
+       mapping = aes(x = saccharina_latissima,
+                     y = laminaria_digitata)) +
+  geom_point() +
+  stat_smooth(method = "lm")
+```
+There does not appear to be a clear relationship between the percent cover of Saccharina latissima and Laminaria_digitata, based on this plot.  
+
+
+## 5c. Hey, so, remember how we filled in a lot of 0s? Yeah, those weren’t in the original long data we plotted….. which means many of those lines from question 4e might be wrong! So let’s pivot this correct long data back wide and then remake the figure from 4e. Does it look different? Does it tell a different story?
+```{r}
+# pivot kelp_data_lam_wide back to kelp_data_lam_long with pivot_longer()
+kelp_data_lam_long <- pivot_longer(kelp_data_lam_wide,
+                                   cols = c(saccharina_latissima, laminaria_digitata),
+                                   names_to = "SPECIES", 
+                                   values_to = "species_percent_cover")
+
+# create a plot with year on the x axis, species_percent_cover on the y axis
+# color lines by site
+ggplot(data = kelp_data_lam_long,
+       mapping = aes(x = YEAR,
+                     y = species_percent_cover,
+                     color = SITE)) +
+# plot a line of the annual mean of species_percent_cover by site
+  stat_summary(fun = mean, geom = "line") +
+  stat_summary(fun = mean, geom = "point") +
+  facet_grid(~SPECIES)
+```
+The figure doesn't look much different than it did before, except that there are more plotted 0% cover values for some of the Laminaria digitata. It does tell a bit of a different story, because it confirms that in some years the percent cover of Laminaria digitata was 0, as opposed to not measured. Since there are still many points where there is no value plotted for certain sites during certain years of each species, it makes me want to look back at the original data set to see if the percent cover was not recorded or if it was zero.  
+
+# Meta Questions  
+
+## Meta 1.  
+**So, this was your first time playing with a novel only mostly clean data set found in the wild. How did you feel working with it? What did you notice as you examined it for the very first time knowing nothing about it?**  
+
+I felt okay working with it and adjusting its structure, although I still feel like I have a lot to learn about why I would want to organize a data set a certain way and how that might help me more easily analyze or visualize specific things.
+
+I noticed it was large, and I had uncertainties about what was in it that I couldn't really answer without any metadata. For example, why were there different SP_CODE values for "substrate"?  
+
+## Meta 2.  
+**Split-Apply-Combine is…. a way of life, really. Is this something you have dealt with previously in your life or work? How comfortable are you with this concept?**  
+
+I am not familiar with that as a phrase per se. I would say I am not yet comfortable with it, although I understand it in concept. I haven't spent a lot of time working with big data sets that needed real processing.  
+
+## Meta 3.  
+**When you’ve made datasets in the past, have they been wide, long, or something else? After this week and the Browman and Woo paper, what advice would you give to future you when making data?**  
+
+I believe I've made both in the past. The advice I would give future me it to really stick to think about how the data set it going to be used when I start to set up how data will be collected.  
+
+## Meta 4.  
+**How much time did this take you, roughly? Again, I’m trying to keep track that these assignments aren’t killer, more than anything.**  
+
+I encountered some blunders (e.g. at first in 4e I thought we were using the original data frame, and I was trying to figure out how to facet with 117 species). I honestly spent probably 6-7 hours on it, but I think a lot of that time was exploring. In general I don't think I'm going to complete these assignments as efficiently as possible, because I will be looking things up as I go along and not just copy and pasting from the in-class scripts.  
+
+## Meta 5.  
+**Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.**  
+Strong. I mean I realize my 4e graph I didn't make beautiful... but I spent a lot of time making sure I understood what I was working on with this assignment, and completed everything! 
+
+
+

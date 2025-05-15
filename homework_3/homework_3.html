@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aaron Shavitz">
+
+<title>homework_3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="homework_3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="homework_3_files/libs/quarto-html/quarto.js"></script>
+<script src="homework_3_files/libs/quarto-html/popper.min.js"></script>
+<script src="homework_3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="homework_3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="homework_3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="homework_3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="homework_3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="homework_3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="homework_3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">homework_3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Aaron Shavitz </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="homework-3-tidy-data-homework" class="level1">
+<h1>Homework 3 Tidy Data Homework</h1>
+<section id="packages-used-for-the-homework-are-loaded-here-in-order-of-use" class="level3">
+<h3 class="anchored" data-anchor-id="packages-used-for-the-homework-are-loaded-here-in-order-of-use">Packages used for the homework are loaded here, in order of use</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-me" class="level2">
+<h2 class="anchored" data-anchor-id="load-me">1. Load me</h2>
+<p><strong>Use the readr library (and URL) to load in the data. Show me that you can do it both without downloading it and if you download it.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data in without downloading it</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>kelp_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 6222 Columns: 21
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (17): NETWORK, PI, SITE, TRANSECT, SP_CODE, GROUP, DIVISION.FAMILY, COMM...
+dbl  (4): YEAR, MONTH, DAY, PERCENT_COVER
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load he data in with downloading it</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(here<span class="sc">::</span><span class="fu">here</span>()) <span class="co"># set working directory to current project folder</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># getwd()</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true"</span>, <span class="st">"data/kelp_data"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>kelp_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/kelp_data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 6222 Columns: 21
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (17): NETWORK, PI, SITE, TRANSECT, SP_CODE, GROUP, DIVISION.FAMILY, COMM...
+dbl  (4): YEAR, MONTH, DAY, PERCENT_COVER
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="format" class="level1">
+<h1>2. Format</h1>
+<p><strong>Take a look at the data in any way you see fit to be able to tell me if the data is in a wide or long format. Justify your answer.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(kelp_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [6,222 × 21] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ NETWORK             : chr [1:6222] "KEEN ONE" "KEEN ONE" "KEEN ONE" "KEEN ONE" ...
+ $ PI                  : chr [1:6222] "Byrnes" "Byrnes" "Byrnes" "Byrnes" ...
+ $ YEAR                : num [1:6222] 2014 2014 2014 2014 2014 ...
+ $ MONTH               : num [1:6222] 7 7 7 7 7 7 7 7 7 7 ...
+ $ DAY                 : num [1:6222] 8 8 8 8 8 8 8 8 8 8 ...
+ $ SITE                : chr [1:6222] "Baker North" "Baker North" "Baker North" "Baker North" ...
+ $ TRANSECT            : chr [1:6222] "1" "1" "1" "1" ...
+ $ SP_CODE             : chr [1:6222] "ANSP" "B" "BA" "BL" ...
+ $ PERCENT_COVER       : num [1:6222] 2.5 7.5 2.5 10 21.2 ...
+ $ GROUP               : chr [1:6222] "Invertebrate" "Substrate" "Invertebrate" "Substrate" ...
+ $ DIVISION.FAMILY     : chr [1:6222] "Molluscs" NA "Arthropods" NA ...
+ $ COMMON.DIVISION.NAME: chr [1:6222] "Bivalves" NA "Crustaceans" NA ...
+ $ SIZE                : chr [1:6222] NA NA NA NA ...
+ $ COMMON.NAME         : chr [1:6222] "jingle shell" NA NA NA ...
+ $ KINGDOM             : chr [1:6222] "Animalia" NA NA NA ...
+ $ PHYLUM              : chr [1:6222] "Mollusca" NA NA NA ...
+ $ CLASS               : chr [1:6222] "Bivalvia" NA NA NA ...
+ $ ORDER               : chr [1:6222] "Pectinida" NA NA NA ...
+ $ FAMILY              : chr [1:6222] "Anomiidae" NA NA NA ...
+ $ GENUS               : chr [1:6222] "Anomia" NA NA NA ...
+ $ SPECIES             : chr [1:6222] "Anomia" NA "Barnacle" NA ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   NETWORK = col_character(),
+  ..   PI = col_character(),
+  ..   YEAR = col_double(),
+  ..   MONTH = col_double(),
+  ..   DAY = col_double(),
+  ..   SITE = col_character(),
+  ..   TRANSECT = col_character(),
+  ..   SP_CODE = col_character(),
+  ..   PERCENT_COVER = col_double(),
+  ..   GROUP = col_character(),
+  ..   DIVISION.FAMILY = col_character(),
+  ..   COMMON.DIVISION.NAME = col_character(),
+  ..   SIZE = col_character(),
+  ..   COMMON.NAME = col_character(),
+  ..   KINGDOM = col_character(),
+  ..   PHYLUM = col_character(),
+  ..   CLASS = col_character(),
+  ..   ORDER = col_character(),
+  ..   FAMILY = col_character(),
+  ..   GENUS = col_character(),
+  ..   SPECIES = col_character()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(kelp_data, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 21
+   NETWORK  PI      YEAR MONTH   DAY SITE   TRANSECT SP_CODE PERCENT_COVER GROUP
+   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;
+ 1 KEEN ONE Byrnes  2014     7     8 Baker… 1        ANSP             2.5  Inve…
+ 2 KEEN ONE Byrnes  2014     7     8 Baker… 1        B                7.5  Subs…
+ 3 KEEN ONE Byrnes  2014     7     8 Baker… 1        BA               2.5  Inve…
+ 4 KEEN ONE Byrnes  2014     7     8 Baker… 1        BL              10    Subs…
+ 5 KEEN ONE Byrnes  2014     7     8 Baker… 1        BM              21.2  Subs…
+ 6 KEEN ONE Byrnes  2014     7     8 Baker… 1        BOSC             1.25 Inve…
+ 7 KEEN ONE Byrnes  2014     7     8 Baker… 1        BOVI             1.25 Inve…
+ 8 KEEN ONE Byrnes  2014     7     8 Baker… 1        BS              18.8  Subs…
+ 9 KEEN ONE Byrnes  2014     7     8 Baker… 1        C               21.2  Subs…
+10 KEEN ONE Byrnes  2014     7     8 Baker… 1        CF               7.5  Inve…
+11 KEEN ONE Byrnes  2014     7     8 Baker… 1        CHCR             8.75 Algae
+12 KEEN ONE Byrnes  2014     7     8 Baker… 1        CLSP             2.5  Inve…
+13 KEEN ONE Byrnes  2014     7     8 Baker… 1        CO               1.25 Algae
+14 KEEN ONE Byrnes  2014     7     8 Baker… 1        DEAC             3.75 Algae
+15 KEEN ONE Byrnes  2014     7     8 Baker… 1        DEVI            12.5  Algae
+16 KEEN ONE Byrnes  2014     7     8 Baker… 1        DIAT             5    Algae
+17 KEEN ONE Byrnes  2014     7     8 Baker… 1        DIVE             2.5  Inve…
+18 KEEN ONE Byrnes  2014     7     8 Baker… 1        EC              23.8  Algae
+19 KEEN ONE Byrnes  2014     7     8 Baker… 1        HIRU             2.5  Algae
+20 KEEN ONE Byrnes  2014     7     8 Baker… 1        HJ               1.25 Algae
+# ℹ 11 more variables: DIVISION.FAMILY &lt;chr&gt;, COMMON.DIVISION.NAME &lt;chr&gt;,
+#   SIZE &lt;chr&gt;, COMMON.NAME &lt;chr&gt;, KINGDOM &lt;chr&gt;, PHYLUM &lt;chr&gt;, CLASS &lt;chr&gt;,
+#   ORDER &lt;chr&gt;, FAMILY &lt;chr&gt;, GENUS &lt;chr&gt;, SPECIES &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View(kelp_data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The data is in <strong>long</strong> format. The data frame is organized in which multiple rows are the same transect on the same day, with each row containing information on the details of various species. If the data were in wide format, there would only be one line for each transect on each day, and there would be separate columns for the percent cover of each species.</p>
+</section>
+<section id="check-it-out." class="level1">
+<h1>3. Check it out.</h1>
+<p><strong>Let’s learn a bit about who is doing what using group_by(), summarize(), and n_distinct().</strong></p>
+<section id="a.-how-many-sites-has-each-pi-done" class="level2">
+<h2 class="anchored" data-anchor-id="a.-how-many-sites-has-each-pi-done">3a. How many sites has each PI done?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kelp_data <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group data frame by the PI</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PI) <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get the total number of distinct sites per PI</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">unique_sites =</span> <span class="fu">n_distinct</span>(SITE, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  PI        unique_sites
+  &lt;chr&gt;            &lt;int&gt;
+1 Byrnes               7
+2 Dijkstra             1
+3 Grabowski            1
+4 Humphries            2
+5 Hurricane            2
+6 Pemaquid             1</code></pre>
+</div>
+</div>
+<p>Based on the output above, the total number of sites examined by each PI is summarized in Table 1:</p>
+<table class="caption-top table">
+<caption><strong>Table 1:</strong> Number of unique sites per PI</caption>
+<thead>
+<tr class="header">
+<th>PI</th>
+<th>Unique Sites</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Byrnes</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>Dijkstra</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Grabowski</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Humphries</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>Hurricane</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Pemaquid</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b.-how-many-years-of-data-does-each-site-have-show-it-in-descending-order." class="level2">
+<h2 class="anchored" data-anchor-id="b.-how-many-years-of-data-does-each-site-have-show-it-in-descending-order.">3b. How many years of data does each site have? Show it in descending order.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>kelp_data <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group data frame by site</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SITE) <span class="sc">|&gt;</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get the total number of distinct years per site</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">years_of_data =</span> <span class="fu">n_distinct</span>(YEAR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange the data in descending order</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(years_of_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 2
+   SITE              years_of_data
+   &lt;chr&gt;                     &lt;int&gt;
+ 1 NE Appledore                  7
+ 2 NW Appledore                  7
+ 3 SW Appledore                  7
+ 4 Fort Weatherill               6
+ 5 Baker North                   5
+ 6 Baker South                   5
+ 7 Nahant                        5
+ 8 Calf Island                   4
+ 9 Little Brewster               4
+10 Hurricane Island              3
+11 King's Beach                  3
+12 Nubble Lighthouse             3
+13 Pemaquid                      2
+14 Schoodic                      1</code></pre>
+</div>
+</div>
+<p>Based on the output above, the total number of years of data at each site is summarized in Table 2:</p>
+<table class="caption-top table">
+<caption><strong>Table 2:</strong> Years of data by site</caption>
+<thead>
+<tr class="header">
+<th>Site</th>
+<th>Years of Data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NE Appledore</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>NW Appledore</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>SW Appledore</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>Fort Weatherill</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>Baker North</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Baker South</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>Nahant</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Calf Island</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Little Brewster</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>Hurricane Island</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>King’s Beach</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Nubble Lighthouse</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Pemaquid</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Schoodic</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="c.-impress-yourself---can-you-make-a-figure-showing-which-site-was-sampled-when-there-are-a-lot-of-ways-to-do-this.-sometimes-i-use-slice-but-im-sure-there-are-more-elegant-solutions.-for-data-viz-you-can-use-geoms-youve-used-before-or-new-ones-like-geom_tile-or-whatever-you-think-would-be-interesting" class="level2">
+<h2 class="anchored" data-anchor-id="c.-impress-yourself---can-you-make-a-figure-showing-which-site-was-sampled-when-there-are-a-lot-of-ways-to-do-this.-sometimes-i-use-slice-but-im-sure-there-are-more-elegant-solutions.-for-data-viz-you-can-use-geoms-youve-used-before-or-new-ones-like-geom_tile-or-whatever-you-think-would-be-interesting">3c. Impress yourself - can you make a figure showing which site was sampled when? There are a lot of ways to do this. Sometimes I use slice(), but I’m sure there are more elegant solutions. For data viz, you can use geoms you’ve used before, or new ones, like geom_tile() or whatever you think would be interesting!</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create plot of kelp_data, month on x axis, site name on y axis and as fill color</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(kelp_data,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(MONTH),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> SITE,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> SITE)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>YEAR) <span class="sc">+</span> <span class="co"># facet by year in grid to represent timeline</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># convert numeric month names to abbreviated month names</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"6"</span> <span class="ot">=</span> <span class="st">"Jun"</span>, <span class="st">"7"</span> <span class="ot">=</span> <span class="st">"Jul"</span>, <span class="st">"8"</span> <span class="ot">=</span> <span class="st">"Aug"</span>, <span class="st">"9"</span> <span class="ot">=</span> <span class="st">"Sep"</span>)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># format title and axes, remove legend</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">6</span>),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sampling Timeline"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Sampling Site"</span>, <span class="at">fill =</span> <span class="st">"Sampling Site"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework_3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="lets-look-at-some-kelp" class="level1">
+<h1>4. Let’s look at some kelp!</h1>
+<section id="a.-this-is-a-big-unwieldy-dataset." class="level2">
+<h2 class="anchored" data-anchor-id="a.-this-is-a-big-unwieldy-dataset.">4a. This is a big unwieldy dataset.</h2>
+<p><strong>Let’s trim it down to the columns, YEAR, SITE, TRANSECT, PERCENT_COVER, and FAMILY, and SPECIES.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kelp_data_small <span class="ot">&lt;-</span> <span class="fu">select</span>(kelp_data, YEAR, SITE, TRANSECT, PERCENT_COVER, FAMILY, SPECIES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-lets-make-it-even-simpler." class="level2">
+<h2 class="anchored" data-anchor-id="b.-lets-make-it-even-simpler.">4b. Let’s make it even simpler.</h2>
+<p><strong>Trim the data down so the only species we are looking at are in the family “Laminariaceae”. After that, you can ditch the FAMILY column.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kelp_data_lam <span class="ot">&lt;-</span> kelp_data_small <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(FAMILY <span class="sc">==</span> <span class="st">"Laminariaceae"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>FAMILY)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="c." class="level2">
+<h2 class="anchored" data-anchor-id="c.">4c.</h2>
+<p><strong>For each species is there only one measurement per species [per] transect each year? Or do we need to worry…… Note, this is a common data check you should be doing if you have a large complex data set!</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># group kelp_data df by year, site, transect, species</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to isolate species at each transect in a single year</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>kelp_data_lam <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, SITE, TRANSECT, SPECIES) <span class="sc">|&gt;</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize data, showing the count for each species at each transect in each year</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># remove NA species names if present, and filter to only show any rows</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># with more than 1 of the same species observation.</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(SPECIES), count <span class="sc">!=</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'YEAR', 'SITE', 'TRANSECT'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 55 × 5
+    YEAR SITE            TRANSECT SPECIES              count
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;                &lt;int&gt;
+ 1  2014 Baker North     3        Saccharina latissima     2
+ 2  2014 Baker South     1        Saccharina latissima     2
+ 3  2014 Baker South     2        Saccharina latissima     2
+ 4  2014 Baker South     3        Saccharina latissima     2
+ 5  2014 Baker South     4        Saccharina latissima     2
+ 6  2014 Calf Island     1        Saccharina latissima     2
+ 7  2014 Calf Island     2        Saccharina latissima     2
+ 8  2014 Calf Island     4        Saccharina latissima     2
+ 9  2014 Little Brewster 2        Saccharina latissima     2
+10  2014 Little Brewster 3        Saccharina latissima     2
+# ℹ 45 more rows</code></pre>
+</div>
+</div>
+<p>There is not always only one measurement per species per transect each year. If there were only one, then the filter <code>count != 1</code> would have generated an empty summary table.</p>
+</section>
+<section id="d.-haha-that-was-a-trick." class="level2">
+<h2 class="anchored" data-anchor-id="d.-haha-that-was-a-trick.">4d. HAHA that was a trick.</h2>
+<p><strong>I knew there sometimes was more than one. That’s because some of these are measurements of juveniles and some are adults. OK - sum up the cover for each species on each transect so that we only have one measurement per species (adults and juveniles together!)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>kelp_data_lam <span class="ot">&lt;-</span> kelp_data_lam <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, SITE, TRANSECT, SPECIES) <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">species_percent_cover =</span> <span class="fu">sum</span>(PERCENT_COVER))<span class="sc">|&gt;</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'YEAR', 'SITE', 'TRANSECT'. You can
+override using the `.groups` argument.</code></pre>
+</div>
+</div>
+</section>
+<section id="e.-neat" class="level2">
+<h2 class="anchored" data-anchor-id="e.-neat">4e. Neat!</h2>
+<p><strong>Make a plot showing the timeseries of kelps at each site. You’ll want stat_summary() here. You might even need it twice because - note - stat_summary() has a geom argument where you can do things like “line”. What might that do? Check it out! Facet this plot by species, so we can see the trajectory of each. Feel free to gussy this plot up however you would like (or not).</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a plot with year on the x axis, species_percent_cover on the y axis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># color lines by site</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> kelp_data_lam,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> YEAR,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> species_percent_cover,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">color =</span> SITE)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot a line of the annual mean of species_percent_cover by site</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"line"</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SPECIES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework_3_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Do you notice anything? Comment!</strong><br>
+It appears Saccharina latissima covers a lot more area at these sites than Laminaria digitata, and in fact Laminaria digitata is not present at a lot of sites. It also appears that the percent cover of Saccharina latissima has generally been declining at most sites, except perhaps at NE Appledore.</p>
+</section>
+</section>
+<section id="wide-relationships" class="level1">
+<h1>5. Wide relationships</h1>
+<p><strong>Let’s look at the relationship between two of the species here. Lexi made me do this, I swear. She made me think about tradeoffs in our weekly meeting last week, so now you all have this problem.</strong></p>
+<section id="a.-if-we-want-to-look-at-the-relationships-between-species-we-need-a-wide-data-set.-use-pivot_wider-to-make-species-into-columns-with-percent-cover-as-your-values.-note---be-careful-to-fill-in-nas-as-0s." class="level2">
+<h2 class="anchored" data-anchor-id="a.-if-we-want-to-look-at-the-relationships-between-species-we-need-a-wide-data-set.-use-pivot_wider-to-make-species-into-columns-with-percent-cover-as-your-values.-note---be-careful-to-fill-in-nas-as-0s.">5a. If we want to look at the relationships between species, we need a wide data set. Use pivot_wider() to make species into columns with percent cover as your values. Note - be careful to fill in NAs as 0s.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use pivot_wider() to make species into columns, with percent cover as value</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>kelp_data_lam_wide <span class="ot">&lt;-</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(kelp_data_lam,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> SPECIES,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> species_percent_cover,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="co"># make NAs into 0</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># rename species columns so they do not have a space</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>kelp_data_lam_wide <span class="ot">&lt;-</span> </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  kelp_data_lam_wide <span class="sc">|&gt;</span> </span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">saccharina_latissima =</span> <span class="st">`</span><span class="at">Saccharina latissima</span><span class="st">`</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">laminaria_digitata =</span> <span class="st">`</span><span class="at">Laminaria digitata</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-neat-is-there-a-relationship-between-saccharina-latissima-and-laminaria-digitata-plot-it.-as-a-preview-for-2-weeks-from-now-add-a-line-to-your-ggplot-stat_smoothmethod-lm.-also-remember-that-you-will-need-backticks-around-variables-with-spaces-in-them.-what-do-you-think-feel-free-to-use-any-other-geoms-or-explore-however-you-like-here." class="level2">
+<h2 class="anchored" data-anchor-id="b.-neat-is-there-a-relationship-between-saccharina-latissima-and-laminaria-digitata-plot-it.-as-a-preview-for-2-weeks-from-now-add-a-line-to-your-ggplot-stat_smoothmethod-lm.-also-remember-that-you-will-need-backticks-around-variables-with-spaces-in-them.-what-do-you-think-feel-free-to-use-any-other-geoms-or-explore-however-you-like-here.">5b. Neat! Is there a relationship between Saccharina latissima and Laminaria digitata? Plot it. As a preview for 2 weeks from now, add a line to your ggplot stat_smooth(method = “lm”). Also, remember that you will need backticks ` around variables with spaces in them. What do you think? Feel free to use any other geoms or explore however you like here.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> kelp_data_lam_wide, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> saccharina_latissima,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> laminaria_digitata)) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework_3_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There does not appear to be a clear relationship between the percent cover of Saccharina latissima and Laminaria_digitata, based on this plot.</p>
+</section>
+<section id="c.-hey-so-remember-how-we-filled-in-a-lot-of-0s-yeah-those-werent-in-the-original-long-data-we-plotted..-which-means-many-of-those-lines-from-question-4e-might-be-wrong-so-lets-pivot-this-correct-long-data-back-wide-and-then-remake-the-figure-from-4e.-does-it-look-different-does-it-tell-a-different-story" class="level2">
+<h2 class="anchored" data-anchor-id="c.-hey-so-remember-how-we-filled-in-a-lot-of-0s-yeah-those-werent-in-the-original-long-data-we-plotted..-which-means-many-of-those-lines-from-question-4e-might-be-wrong-so-lets-pivot-this-correct-long-data-back-wide-and-then-remake-the-figure-from-4e.-does-it-look-different-does-it-tell-a-different-story">5c. Hey, so, remember how we filled in a lot of 0s? Yeah, those weren’t in the original long data we plotted….. which means many of those lines from question 4e might be wrong! So let’s pivot this correct long data back wide and then remake the figure from 4e. Does it look different? Does it tell a different story?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot kelp_data_lam_wide back to kelp_data_lam_long with pivot_longer()</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>kelp_data_lam_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(kelp_data_lam_wide,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">cols =</span> <span class="fu">c</span>(saccharina_latissima, laminaria_digitata),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">names_to =</span> <span class="st">"SPECIES"</span>, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">values_to =</span> <span class="st">"species_percent_cover"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create a plot with year on the x axis, species_percent_cover on the y axis</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># color lines by site</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> kelp_data_lam_long,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> YEAR,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> species_percent_cover,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">color =</span> SITE)) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot a line of the annual mean of species_percent_cover by site</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"line"</span>) <span class="sc">+</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SPECIES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework_3_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The figure doesn’t look much different than it did before, except that there are more plotted 0% cover values for some of the Laminaria digitata. It does tell a bit of a different story, because it confirms that in some years the percent cover of Laminaria digitata was 0, as opposed to not measured. Since there are still many points where there is no value plotted for certain sites during certain years of each species, it makes me want to look back at the original data set to see if the percent cover was not recorded or if it was zero.</p>
+</section>
+</section>
+<section id="meta-questions" class="level1">
+<h1>Meta Questions</h1>
+<section id="meta-1." class="level2">
+<h2 class="anchored" data-anchor-id="meta-1.">Meta 1.</h2>
+<p><strong>So, this was your first time playing with a novel only mostly clean data set found in the wild. How did you feel working with it? What did you notice as you examined it for the very first time knowing nothing about it?</strong></p>
+<p>I felt okay working with it and adjusting its structure, although I still feel like I have a lot to learn about why I would want to organize a data set a certain way and how that might help me more easily analyze or visualize specific things.</p>
+<p>I noticed it was large, and I had uncertainties about what was in it that I couldn’t really answer without any metadata. For example, why were there different SP_CODE values for “substrate”?</p>
+</section>
+<section id="meta-2." class="level2">
+<h2 class="anchored" data-anchor-id="meta-2.">Meta 2.</h2>
+<p><strong>Split-Apply-Combine is…. a way of life, really. Is this something you have dealt with previously in your life or work? How comfortable are you with this concept?</strong></p>
+<p>I am not familiar with that as a phrase per se. I would say I am not yet comfortable with it, although I understand it in concept. I haven’t spent a lot of time working with big data sets that needed real processing.</p>
+</section>
+<section id="meta-3." class="level2">
+<h2 class="anchored" data-anchor-id="meta-3.">Meta 3.</h2>
+<p><strong>When you’ve made datasets in the past, have they been wide, long, or something else? After this week and the Browman and Woo paper, what advice would you give to future you when making data?</strong></p>
+<p>I believe I’ve made both in the past. The advice I would give future me it to really stick to think about how the data set it going to be used when I start to set up how data will be collected.</p>
+</section>
+<section id="meta-4." class="level2">
+<h2 class="anchored" data-anchor-id="meta-4.">Meta 4.</h2>
+<p><strong>How much time did this take you, roughly? Again, I’m trying to keep track that these assignments aren’t killer, more than anything.</strong></p>
+<p>I encountered some blunders (e.g.&nbsp;at first in 4e I thought we were using the original data frame, and I was trying to figure out how to facet with 117 species). I honestly spent probably 6-7 hours on it, but I think a lot of that time was exploring. In general I don’t think I’m going to complete these assignments as efficiently as possible, because I will be looking things up as I go along and not just copy and pasting from the in-class scripts.</p>
+</section>
+<section id="meta-5." class="level2">
+<h2 class="anchored" data-anchor-id="meta-5.">Meta 5.</h2>
+<p><strong>Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.</strong><br>
+Strong. I mean I realize my 4e graph I didn’t make beautiful… but I spent a lot of time making sure I understood what I was working on with this assignment, and completed everything!</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,312 @@
+---
+title: "homework_6"
+author: "Aaron Shavitz"
+format: html
+---
+github: https://github.com/ashavitz/BIOL_607_homework/tree/main  
+
+# Complex Linear Models Homework
+
+```{r}
+# Load Libraries
+library(readr)
+library(tidyr)
+library(dplyr)
+
+# Visualization
+library(ggplot2)
+library(visreg)
+
+# Modeling
+library(performance)
+library(broom)
+library(emmeans)
+library(modelr)
+```
+
+## 1. Complex Linear Models and their Design Matrices 
+For this exercise, we will consider the penguins data set from the palmerpenguins package. The data set contains various measures of penguin size, species, and sex, along with the year and island when/where the observations were made. Begin by loading the data and dropping observations that have missing values for some of the predictors. For this data, we can filter on not being NA for sex:
+```{r}
+library(palmerpenguins)
+data(penguins)
+
+#some incomplete cases to filter out
+penguins <- penguins |> filter(!is.na(sex))
+```
+
+**1A. First, consider a linear model in which you attempt to predict a penguin’s body mass (`body_mass_g`) from its flipper length (`flipper_length_mm`) and the sex (`sex`) of the penguin.**
+
+```{r}
+penguin_lm <- lm(body_mass_g ~ flipper_length_mm + sex,
+                 data = penguins)
+```
+
+
+**1B. Write down the entries in the design matrix, $X$ for the first 3 observations in the data set. Don’t forget the intercept! Verify you are correct with the `model.matrix()` function. Note, to see how to write a table in markdown for a quarto document, check out https://quarto.org/docs/authoring/tables.html**  
+
+Okay so, if the female is 0 (because it's alphabetically first), then looking at the penguins data set:
+```{r}
+head(penguins, n = 3)
+```
+
+I believe the design matrix entries for the first three observations would be:  
+
+|Intercept | flipper_length_mm | sex |
+| -------- | ----------------- | --- |
+| 1        | 181               | 1   |
+| 1        | 186               | 0   |
+| 1        | 195               | 0   |
+
+
+Let's see: 
+```{r}
+head(model.matrix(penguin_lm), n = 3)
+```
+
+
+**1C. Now, consider adding species to the model in addition to flipper length (`flipper_length_mm`) and the sex (`sex`) of the penguin. Fit the model using effects coding. Write down the entries in the design matrix for the following observations:**
+```{r}
+# Fieberg equates "effects coding" and dummy coding.
+# I believe this is the default in R's lm() function for categorical variables
+penguin_lm_3v <- lm(body_mass_g ~ flipper_length_mm + sex + species,
+                 data = penguins)
+
+penguins[c(1, 2, 200, 201, 300, 301),
+         c("body_mass_g", "flipper_length_mm", "sex", "species")]
+```
+ 
+ 
+ Design Matrix Subset:  
+
+| Row | Intercept | flipper_length_mm | sex | speciesChinstrap | speciesGentoo |
+| --- | -------- | ------------------ | --- | ---------------- | ------------- |
+| 1   | 1        | 181                | 1   | 0                | 0             |
+| 2   | 1        | 186                | 0   | 0                | 0             |
+| 200 | 1        | 217                | 0   | 0                | 1             |
+| 201 | 1        | 220                | 1   | 0                | 1             |
+| 300 | 1        | 195                | 1   | 1                | 0             |
+| 301 | 1        | 199                | 0   | 1                | 0             |
+
+
+```{r}
+# confirm
+model.matrix(penguin_lm_3v)[c(1, 2, 200, 201, 300, 301), ]
+```
+
+
+
+**1D. Lastly, let’s allow the effect of flipper length to be sex-specific. This can be accomplished by adding an interaction between sex and `flipper_length_mm`. Again, write down the entries in the design matrix for 6 observations selected just above. Check yourself `with model.matrix()`.**  
+```{r}
+penguin_lm_int <- lm(body_mass_g ~ flipper_length_mm*sex + species,
+                 data = penguins)
+```
+
+
+Design Matrix Subset:  
+
+| Row | Intercept | flipper_length_mm | sex | flipper_length:sex | speciesChinstrap | speciesGentoo |
+| --- | -------- | ------------------ | --- | ------------------ | ---------------- | ------------- |
+| 1   | 1        | 181                | 1   | 181                | 0                | 0             |
+| 2   | 1        | 186                | 0   | 0                  | 0                | 0             |
+| 200 | 1        | 217                | 0   | 0                  | 0                | 1             |
+| 201 | 1        | 220                | 1   | 220                | 0                | 1             |
+| 300 | 1        | 195                | 1   | 195                | 1                | 0             |
+| 301 | 1        | 199                | 0   | 0                  | 1                | 0             |
+
+
+```{r}
+model.matrix(penguin_lm_int)[c(1, 2, 200, 201, 300, 301), ]
+```
+
+
+## 2. Three variations on a theme
+For this exercise, we will use the `leaftemp` data set in the `DAAG` package. The data set contains measurements of vapor pressure (`vapPress`) and differences between leaf and air temperatures (`tempDiff`) in an experiment conducted at three different levels of carbon dioxide (`CO2level`).
+```{r}
+pacman::p_load(DAAG)
+data(leaftemp)
+```
+
+**2A. Fit the following three models to these data:**  
+- simple linear regression: `lm(tempDiff ~ vapPress, data = leaftemp)`
+- Analysis of covariance: `lm(tempDiff ~ vapPress + CO2level, data= leaftemp)`
+- Interaction model: `lm(tempDiff ~ vapPress*CO2level, data= leaftemp)`
+```{r}
+lm1 <- lm(tempDiff ~ vapPress, data = leaftemp)
+lm2 <- lm(tempDiff ~ vapPress + CO2level, data= leaftemp)
+lm3 <- lm(tempDiff ~ vapPress*CO2level, data= leaftemp)
+```
+
+
+**2B. Do all of these models pass checks of assumptions?**
+```{r}
+check_model(lm1)
+# Looks good to me!
+
+check_model(lm2)
+# Still lookin good!
+
+check_model(lm3)
+# Still looks good. The VIF is extremely high for CO2level and vapPress:CO2level, but that is okay
+# for an interaction effect. We saw in the previous model check that there isn't strong collinearity 
+# between CO2level and vapPress
+```
+
+Yes! Each of these models passes our checks of assumptions.
+
+
+**2C. For the Analysis of covariance model, write down the equation Corresponding to the model. In quarto, you can use LaTeX to write equations fairly simply.**  
+
+Let's look at our data and at lm2
+```{r}
+head(leaftemp)
+lm2
+```
+
+So we have 3 levels of CO2level, and slopes for CO2levelmedium and CO2levelhigh based on dummy coding CO2level.  
+So our equation would be:  
+$tempDiff = -0.8392(vapPress) + 0.3199(CO2levelmedium) + 0.7931(CO2levelhigh) + \epsilon$
+
+
+**2D. Plot the predicted mean temperature difference as a function of vapor pressure (and when appropriate, CO2 level) for each of the 3 models.**  
+
+Isn't the output of the model the predicted mean? So for simple linear regression isn't just plotting the best fit line plotting the predicted mean temperature as a function of the predictor? 
+```{r}
+# For simple linear regression, just plot predictor against predicted
+visreg(lm1)
+
+# For multiple lr with one continuous variable, one categorical variable, and no interaction,
+# plot predictor against predicted faceted category. Lines will be parallel.
+visreg(lm2, gg = TRUE, 
+       xvar = "vapPress", by = "CO2level")
+
+# For multiple lr with one continuous variable, one categorical variable, and interaction,
+# plot predictor against predicted faceted category. Lines won't be parallel.
+visreg(lm3, gg = TRUE, 
+       xvar = "vapPress", by = "CO2level")
+```
+
+
+## 3. Interactions with Continuous Variables  
+Scientists wanted to simulate how different biological interactions might influence the carbon burial potential of sinking algae in the deep ocean. Let’s use this simulated data which features sinking rate, microbial abundance, and detritovore abundance as predictors of net carbon sequestration.
+
+
+**3A Load the data, inspect it, and fit a model with a 3-way interaction, Do you meet assumptions?**
+```{r}
+# load data
+c_burial <- read_csv("data/c_burial_sims.csv")
+
+# inspect data
+head(c_burial)
+str(c_burial)
+summary(c_burial)
+visdat::vis_dat(c_burial)
+skimr::skim(c_burial)
+
+# fit a lm with a 3-way interaction
+burial_lm <- lm(net_carbon_sequestration ~ sink_rate*microbial_abundance*detritivore_biomass,
+                data = c_burial)
+
+# check assumptions
+check_model(burial_lm)
+
+# need to check that additive predictors are not collinear
+check_collinearity(lm(net_carbon_sequestration ~ sink_rate + microbial_abundance + detritivore_biomass,
+                data = c_burial)) |> plot()
+# looks great
+```
+Assumptions look quite good. VIFs are inflated due to inclusion of interaction. Examing VIFs with interaction excluded, we see there is no concerning collinearity.  
+
+
+**3B Now the fun part - inference. What do the coefficients tell you?**
+```{r}
+tidy(burial_lm)
+```
+All the predictors are continuous variables, so the coefficients for sink_rate, microbial_abundance, and detritivore_biomass tell us how the net_carbon_sequestration changes for a unit increase in each of those variables respectively, if all others are held constant at 0. The sink_rate:microbial_abundance coefficients I believe tells us how the impact of a unit increase of sink_rate on net_carbon_sequestration changes as microbrial_abundance increases. If I have that right, it means for each unit increase in microbial_abundance, a unit increase of sink_rate will further increase net_carbon sequestration an additional ~1.73 units... and similar for the other two "pair wise" interactions. The coefficient for sink_rate:microbial_abundance:detritivore_biomass would then be similar, except now the impact of a unit increase of sink_rate on net_carbon_sequestration changes based on increases in both microbial_abundance and detritivore_biomass.  
+
+
+
+**3C OK - that’s a lot. Use your skills of visualization to tease out what the data is telling us. You can use visreg() or augment() with data_grid() or whatever you would like. Make this model make sense so that you can tell your audience how these three parameters work together to influence carbon burial!**  
+```{r}
+# Tile or raster plot of two variables, faceted by the 3rd variable. 
+
+# Make counterfactual data frame
+modeled_data <- data_grid(
+  c_burial,
+  microbial_abundance = seq_range(microbial_abundance, 50),
+  detritivore_biomass = seq_range(detritivore_biomass, 50),
+  sink_rate = seq_range(sink_rate, 50)) |> 
+  mutate(
+    sink_rate_level = cut(sink_rate, 
+                          breaks = 3, 
+                          labels = c("Sink Rate Low", "Sink Rate Medium", "Sink Rate High"))
+    ) |> 
+  augment(burial_lm,
+          newdata = _, # uses the prediction frame modeled_data
+          interval = "confidence") |> 
+  rename(net_carbon_sequestration = .fitted)
+
+# Crate raster plots of net_carbon_sequestration predicted by microbial_abundance and
+# detritivore_biomass, faceted by sink_rate
+ggplot(data = modeled_data, 
+        mapping = aes(x = microbial_abundance,
+                      y = detritivore_biomass, 
+                      fill = net_carbon_sequestration)) +
+  geom_raster() +
+  facet_wrap(~ sink_rate_level) +
+  scale_fill_viridis_c(option = "G") +
+  labs(x = "Microbial Abundance",
+       y = "Detritivore Biomass",
+       title = "Visualizing Drivers of Net Carbon Sequestration",
+       subtitle = "The Impact of Detritivore Biomass and Microbial Abundance on Net Carbon Sequestration Appears to Reverse as Sink Rate Increase",
+       fill = "Net Carbon Sequestration") +
+  theme(plot.title = element_text(vjust = 1, hjust = 0.5),
+        plot.subtitle = element_text(size = 8))
+```
+
+We can see in our plot above that when sink rate is low, higher detritivore biomass and microbial abundance result in lower net C sequestration, but when sink rate is high, net C sequestration is highest when detritivore biomass and microbial abundance are high. Notably, when sink rate is high, net C sequestration is lowest when either detritivore biomass or microbial abundance is low, but not when they are both low. Neat!  
+
+
+
+## Meta 1.  
+**Where do you think we will go next with models like these?**  
+
+Nonlinearity??? Non-normal distributions???
+ 
+
+## Meta 2.  
+**In particular, what do you find most interesting about intereaction effects? What do you find most intimidating?**  
+
+It really helps to understand the complexity of natural systems to be able to visualize how when factor that independently cause something are simultaneously active, they may have a completely different effect. Super cool. 
+
+As for intimidating, it's definitely just nerve wracking to thing of how much I might miss when examining data. Who knows if there is a variable I didn't capture, which when it interacts with the data I did capture, completely changes the relationships I might see.  
+
+
+## Meta 3.  
+**How do you think you will use complex linear models like these in your own work?**  
+
+I am currently working with MassBays to compile and examine lots of existing environmental time series data from the Wellfleet, MA area to examine what environmental factors may be driving the large decline in eelgrass coverage seen in that area over the last ~30 years. I may be running some sort of regression of eelgrass coverage as predicted by a suite of environmental variables.  
+
+
+## Meta 4.  
+**Now that we have fully explored purely “linear” models, what one question or concern do you still have?**  
+
+I would love to review statistical tests further and examine how lms parallel / overlap with them. We had a reading on this, but I certainly don't fully grasp it all yet.  
+
+
+## Meta 5.  
+**How much time did this take you, roughly? Again, I’m trying to keep track that these assignments aren’t killer, more than anything.**
+
+4 - 5 hours, including reviewing comprehension, etc.
+
+
+## Meta 6.  
+**Please give yourself a weak/sufficient/strong assessment on this assigment. Feel free to comment on why.**  
+
+Strong.
+
+
+
+
+
+
+

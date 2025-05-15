@@ -1,0 +1,17 @@
+location,name of the monitoring stite
+seagrassnet_sitecode,SeagrassNet code
+transect,transect in which seagrass cover was measured
+quadrat,quadrat in which cover was measured
+species,species in which seagrass cover was measured
+date_sampling,date in which seagrass cover was measured
+month,month in which cover was measured
+day,day in which cover was measured
+year,year in which cover was measured
+time,time (EDT)
+percent_cover,percent_cover of Zostera marina
+prior_yr_mean_daily_mean_temp,prior year mean daily mean summer temperature (June-Aug) deg. Celsius
+prior_yr_min_daily_mean_temp,prior year min daily mean summer temperture (June-Aug) deg. Celsius
+prior_yr_max_daily_mean_temp,prior year max daily mean summer temperture (June-Aug) deg. Celsius
+prior_yr_q1_daily_mean_temp,prior year first quantile daily mean summer temperture (June-Aug) deg. Celsius
+prior_yr_q3_daily_mean_temp,prior year third quantile daily mean summer temperture (June-Aug) deg. Celsius
+period_avg_mean_daily_mean_temp,time period average mean daily mean summer temperture (June - Aug) deg. Celsius

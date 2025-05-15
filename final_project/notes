@@ -1,0 +1,101 @@
+TODO: 
+- Add summary information (slope, se, etc.) to slides
+- Finish cutomizing plots
+- Clean up and complete assumption checks
+  - Anything to include in presentation?
+- Clean presentation and reherse
+- Add/find references
+
+
+- NDBC data from geographically relevant buoys was too short and too recent for many buoys 
+(e.g. Cape Cod Bay 44090, CHTM3, etc.)
+- A similar analysis has been completed (Plaisted et al. 2022) using Buoy data, but given limited 
+  coverage of buoy data, it would be advantageous to identify an effective remote sensing data set 
+  which could be applied in the future. 
+  
+- Since I only have one site per latitude, site effects and latitude are confounded, BUT I can still
+  isolate within-site variation/effects (higher temp compared to own site/latitude average 
+  impact on site)
+  - Per Jarett, calculate the average SST for each site based on the whole time series of all site
+    monitoring
+  - We don't have clustering because we don't have multiple transects ("plots") at each site. 
+    Because we are focusing on within-site effects, this is okay. 
+- Mundlak design does not control for time-varying confounders (things that change with SST and time
+  across all the sites)
+  
+
+0) DAG: Percent Cover, Site effects, latitude, SST (group mean centered SST)
+1) Hypothesis: Summer SST temperature anomolies one year prior to monitoring, 
+   measured via remote sensing, is a significant predictor of eelgrass presence on a Northeast 
+   US regional scale. (modified from Plaisted et al. 2022)
+2) Sampling design: Non-clustered (single transect at each site) longitudinal data (Correia et al. 2025).
+   This sampling design is relevant for examining the within-site effects of SST. We don't have multiple
+   transects/sites/"plots" at each latitude, so we can't distinguish between latitude and site effects
+   across sites, but that is okay because we aren't interested in that.
+  
+3) Aanalytic frameworks: 
+  - Binomial regression with logit link for presence absence. Binomial b/c odds of presence.
+  - Beta regression with logit link for percent cover (abundance). Beta b/c percent cover.
+  - Logit for both because this is the canonical link for both, and allows for converting linear
+    outcome to odds, and for converting linear outcome to bounded (beta) outcome
+  - Only transect A is included, as depth differences vary between sites, so only using the shallowest
+    makes this depth more consistent. Also SST is more likely to be reflective of water temperature
+    at shallower depths.
+    
+  - TWO Types of models I can build: 
+    - Percent cover is aggregated at the site level, and thus site random effects are not needed
+      becuase of Mundlak approach (centered temp). Predictors/fixed effects are centered temp, 
+      site mean temp (those two are Mundlak), and random effects are year
+    - Percent cover is at the quadrat levels, thus site random effects are needed. Predictors/fixed
+      effects are thus centered temp, site mean temp (I think?), and random effects are quadrat, 
+      year?, (and site?? or only if site mean temp isn't included?)
+  
+Power analysis:
+ONLY DO THIS BEFORE ANALYSIS, AND NOT USING YOUR MODEL DATA. FOR EXPERIMENTAL DESIGN:
+P VALUES AND POWER ANALYSIS:
+- What do I want to use for a p-value cutoff (alpha)? 
+- What do I want for my power (and corresponding beta)
+- Try to calculate power based on my determined alpha (likely 0.05)
+  - Can use Mudge's Optimal Alpha if I'm not worried more about alpha or beta... maybe
+    - Balances between alpha and beta
+
+Questions: 
+- Plaisted 2022 only used the shallowest transects. Could I do this analysis with other transects?
+- I could run this separately for each depth range, see if it's better for one vs another (logically 
+  would be better for shallowest because SST would be most reflective of shallower depths)
+- Should I keep transect as a random effect to capture within-site variability?
+    
+- Consider doing this analysis for shoot density, fruit count, and canopy height
+
+
+
+
+
+ARCHIVE - NOT UP TO DATE BUT DIDN'T WANT TO DELETE MY THINKING: 
+- I am NOT aggregating kelp percent cover (e.g. as the mean) along a transect in a given year.
+    The purpose of this is to maintain 0 % cover values in year where some quadrats have cover and 
+    some don't, to thus be better able to model presence-absence.
+    - Since I am not aggregating, I need to include quadrat as a random effect. I also need to 
+      include transect as a random effect, unless I only use one transect.
+
+- I am NOT aggregating kelp percent cover (e.g. as the mean) along a transect in a given year.
+  The purpose of this is to maintain 0 % cover values in year where some quadrats have cover and 
+  some don't, to thus be better able to model presence-absence.
+  Is this the best approach?
+  - Furthermore, I am including ALL percent cover measurements for each site year. 
+    Should I only include percent cover from summer percent cover measurements?
+  - Do I need to average by quadrat within each year, so there's only one measurement per
+    quadrat per year?
+    
+    
+Questions: 
+- When I fit a polynomial spline GAM, how do you determine the number of parameters/splines?
+  - 
+- Can you still apply model comparison in casual analysis?
+  - If so, can I fit multiple models with temp as predictor (e.g. poly sline vs linear) and
+    see which is best?
+  - Or does this only work for prediction, not causality
+  - [LOOKS LIKE NO?]
+  
+STATE ASSUMPTIONS EXPLAINING WHY YOU'RE MAKING MODELS THE WAY YOU'RE MAKING THEM!!
+

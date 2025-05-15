@@ -1,0 +1,30 @@
+---
+title: "Sampling your system"
+author: "Aaron Shavitz"
+format: html
+---
+**Note** - This was the original first midterm exam question, but was removed. This response is incomplete, but saving here for record:  
+
+## 1. Sampling your system
+**Each of you have a study system you work in and a question of interest. Give an example of one variable that you would sample in order to get a sense of its variation in nature. Describe, in detail, how you would sample for the population of that variable in order to understand its distribution. Questions to consider include, but are not limited to: Just what is your sample versus your population? What would your sampling design be? Why would you design it that particular way? What are potential confounding influences of both sampling technique and sample design that you need to be careful to avoid? What statistical distribution might the variable take, and why?**  
+
+At the moment I am working with MassBays NEP to examine potential environmental drivers for observed eelgrass decline near Wellfleet, MA. I am predominantly looking at time series data to see how that compares with declines in area coverage of eelgrass meadows over the last 30 years. One area in which we are lacking data is the population abundance or density of invasive European green crabs, *Carcinus maenas*, which burrow in sediment and cut eelgrass while foraging in eelgrass meadows. Green crabs have been associated with eelgrass decline in previous studies.  
+
+Since we can't go back in time to examine green crab populations, it may be helpful to examine a current snapshot of green crab population abundance and some associated "health factors" of remaining eelgrass meadows. 
+
+Variable to measure: **Count of caught green crabs.** In order to attempt to understand population abundance of green crabs at various locations, we could use count of caught green crabs via bait traps as a proxy measurement.  
+
+How I would sample: First, I would establish randomized plots of a standard size (area). These would be determined by taking the latest spatial coverage data we have of eelgrass meadows in our study area near Wellfleet, and randomly selecting a number of non-overlapping plots. To avoid the labor intensity of manual scuba population counts, baited traps would be set in the center of the plots on the same day, and left for the same amount of time until collected. Let's say 48 hours. After this time, all traps would be collected in the order they were deployed (to keep time deployed consistent), and the count of green crabs caught in the traps would be measured. Effort would be taken to ensure consistency of all potentially confounding variables (type of trap, type & quantity of bait, etc. etc.). 
+
+Sample vs Population: 
+
+Sampling design: 
+
+Why would you design it that particular way?:
+
+What are potential confounding influences of both sampling technique and sample design that you need to be careful to avoid?:
+
+What statistical distribution might the variable take, and why?: 
+
+
+

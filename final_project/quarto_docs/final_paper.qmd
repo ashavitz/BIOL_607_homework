@@ -1,0 +1,176 @@
+---
+title: "Impact of Summer SST Anomalies on Northeastern US Eelgrass Cover"
+author: "Aaron Shavitz"
+date: "May 3, 2025"
+format:
+  html:
+    code-fold: true
+    echo: true
+    warning: false
+    message: false
+---
+
+Notes:
+- Jarrett wants code visible
+- Citations can be entered with bibtex export... (.bib file)
+     
+```{r setup, include=FALSE}
+# Using knitr package to read code chunks from sst_anaysis.R and system_dag.R
+
+# Process the entire R script without displaying, so isolated code chunks can be run later
+source("../scripts/sst_analysis.R")
+source("../scripts/system_dag.R")
+
+# Read in the R script from the 'scripts' folder (relative to the root project directory)
+knitr::read_chunk("../scripts/sst_analysis.R")
+knitr::read_chunk("../scripts/system_dag.R")
+```
+
+### Introduction  
+- Relevant background  
+- Core question(s) and hypotheses  
+
+
+### Data Sources  
+
+Data 
+
+### Methods  
+
+- 
+
+
+#### Description of Design  
+
+From Jarrett's Paper: "By including the subregional
+averages over time, the confounding signal from these and
+other unobserved variables that are correlated with subre-
+gion are accounted for in the group mean term.
+Subregion-level anomalies thus represent the effects of
+changes in the causal driver of interest, while holding
+subregion-level confounders constant. This method
+assumes that the driver anomalies (relative to their subre-
+gional means) are (1) not confounded with other,
+unmeasured drivers of the response variable and (2) the
+reason for those anomalies does not vary by subregion"
+
+Random effects: 
+- I make the assumption that site and year random effects are uncorrelated with the fixed effect of
+previous centered SST. Violating this would be a violation of the assumption of endogeneity (aka the Random Effects assumption)
+
+#### Model Design  
+Causal analysis - so needed to determine models details in advance based on theory.
+
+Aanalytic frameworks: 
+  - Binomial regression with logit link for presence absence. Binomial b/c odds of presence.
+  - Beta regression with logit link for percent cover (abundance). Beta b/c percent cover.
+  - Logit for both because this is the canonical link for both, and allows for converting linear
+    outcome to odds, and for converting linear outcome to bounded (beta) outcome
+  - Only transect A is included, as depth differences vary between sites, so only using the shallowest
+    makes this depth more consistent. Also SST is more likely to be reflective of water temperature
+    at shallower depths.
+    
+  - TWO Types of models I can build: 
+    - Percent cover is aggregated at the site level, and thus site random effects are not needed
+      becuase of Mundlak approach (centered temp). Predictors/fixes effects are centered temp, 
+      site mean temp (those two are Mundlak), and random effects are year
+    - Percent cover is at the quadrat levels, thus site random effects are needed. Predictors/fixed
+      effects are thus centered temp, site mean temp (I think?), and random effects are quadrat, 
+      year?, (and site?? or only if site mean temp isn't included?)
+
+- Include written formula for my models
+
+
+
+
+If I decide to include model math:
+$$
+\text{logit}(\mu_{ij}) = \beta_0 + \beta_1 \cdot \text{SSTA}_{ij} + \alpha^{\text{site}}_{0j} + \alpha^{\text{site}}_{1j} \cdot \text{SSTA}_{ij} + \alpha^{\text{year}}_i + \varepsilon_{ij}
+$$
+
+$$
+\begin{aligned}
+\text{Percent Cover}_{ij} &\sim \text{Beta}(\mu_{ij}, \phi) \\
+\text{logit}(\mu_{ij}) &= \beta_0 + \beta_1 \cdot \text{SSTA}_{ij} + \alpha^{\text{year}}_j + \alpha^{\text{site}}_{0i} + \alpha^{\text{site}}_{1i} \cdot \text{SSTA}_{ij} + \varepsilon_{ij} \\
+\text{logit}(\pi_{ij}) &= \gamma_0
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+\alpha^{\text{site}}_{0i} \\
+\alpha^{\text{site}}_{1i}
+\end{bmatrix} &\sim \mathcal{N}
+\left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\Sigma_{\text{site}}
+\right)
+\\
+\alpha^{\text{year}}_j &\sim \mathcal{N}(0, \sigma^2_{\text{year}}) \\
+\varepsilon_{ij} &\sim \mathcal{N}(0, \sigma^2)
+\end{aligned}
+$$
+
+
+#### Term Key
+
+- **SSTA**: Sea Surface Temperature Anomaly (centered)
+- **Percent Cover**: Proportion of eelgrass coverage at a site
+- **Site**: The location where the percent cover was measured
+- **Year**: The year of measurement
+- **β₀**: Fixed intercept
+- **β₁**: Fixed effect of SSTA
+- **α₀ᵢ**: Random intercept for Site *i*
+- **α₁ᵢ**: Random slope for SSTA at Site *i*
+- **αⱼ**: Random intercept for Year *j*
+- **γ₀**: Intercept for the zero-inflation component
+- **εᵢⱼ**: Residual error for observation *j* at Site *i*
+
+
+
+$$
+\begin{aligned}
+\text{Presence}_{ijk} &\sim \text{Bernoulli}(p_{ijk}) \\
+\text{logit}(p_{ijk}) &= \beta_0 + \beta_1 \cdot \text{SSTA}_{ijk} + \alpha^{\text{year}}_j + \alpha^{\text{site}}_{0k} + \alpha^{\text{site}}_{1k} \cdot \text{SSTA}_{ijk} + \alpha^{\text{quadrat}}_{i(k)} + \varepsilon_{ijk}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+\alpha^{\text{site}}_{0k} \\
+\alpha^{\text{site}}_{1k}
+\end{bmatrix} &\sim \mathcal{N}
+\left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\Sigma_{\text{site}}
+\right)
+\\
+\alpha^{\text{year}}_j &\sim \mathcal{N}(0, \sigma^2_{\text{year}}) \\
+\alpha^{\text{quadrat}}_{i(k)} &\sim \mathcal{N}(0, \sigma^2_{\text{quadrat}}) \\
+\varepsilon_{ijk} &\sim \mathcal{N}(0, \sigma^2)
+\end{aligned}
+$$
+
+
+#### Term Key
+
+- **SSTA**: Sea Surface Temperature Anomaly (centered)
+- **Presence**: Binary indicator of eelgrass presence (1 = present, 0 = absent)
+- **Site**: The location where the presence was recorded
+- **Quadrat**: A nested sub-location within a Site
+- **Year**: The year of observation
+- **β₀**: Fixed intercept
+- **β₁**: Fixed effect of SSTA
+- **α₀ₖ**: Random intercept for Site *k*
+- **α₁ₖ**: Random slope for SSTA at Site *k*
+- **αⱼ**: Random intercept for Year *j*
+- **αᵢ(ₖ)**: Random intercept for Quadrat *i* nested in Site *k*
+- **εᵢⱼₖ**: Residual error for observation *i* in Year *j* at Site *k*
