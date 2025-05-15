@@ -22,7 +22,7 @@ knitr::read_chunk("../scripts/sst_analysis.R")
 knitr::read_chunk("../scripts/system_dag.R")
 ```
 
-## Eelgrass! {background-image="images/seagrassnet_cover_photo.jpeg"}
+## Eelgrass! {background-image="images/seagrassnet_cover_photo.jpeg" style="text-align: center;"}
 :::footer
 Image from www.seagrassnet.org
 :::
@@ -60,10 +60,11 @@ Foundation species - along with other seagrasses
 ## Northeastern Eelgrass Populations have Declined {.smaller}
 
 :::::{.columns}
-::::{.column width=50%}
-1995 ![](images/cape_cod_eg_cover_1995.png){width=60%}  
-2023
-![](images/cape_cod_eg_cover_2023.png){width=60%}
+::::{.column width=50% style="text-align: center;"}
+1995  
+![](images/cape_cod_eg_cover_1995.png){width=50%}  
+2023  
+![](images/cape_cod_eg_cover_2023.png){width=50%}
 ::::
 ::::{.column width=50%}
 :::{.incremental}
@@ -117,14 +118,14 @@ Summer SST anomalies one year prior to monitoring, as measured via remote sensin
 ## Data Sources {.smaller}
 
 :::::{.columns .center}
-::::{.column width=50%}
+::::{.column width=50% style="text-align: center;"}
 ![](images/NOAA-color-logo-web.png){width=50%}
 ![](images/JPL_logo.png){width=65%}
 
 SST, Multi-scale Ultra-high Resolution (MUR JPL), Daily 1km East Coast, 2003-2021
 ::::
 
-::::{.column width=50%}
+::::{.column width=50% style="text-align: center;"}
 ![](images/seagrassnet_logo.png){width=80%}
 ![](images/Plaisted_title_screenshot.png){width=80%}
 
@@ -282,8 +283,8 @@ tidy(eelgrass_pc_glmm) |>
 - The zero inflation intercept tells us ~15% of our zeros are structural - not modeled well by my model
 :::
 
-##
-
+##  
+:::{style="text-align: center;"}
 ```{r Visualize Aggregated Percent Cover Model - 3}
 ```
 
@@ -302,6 +303,7 @@ tidy(eelgrass_pc_glmm) |>
   kable() |> 
   kable_styling(font_size = 14)
 ```
+:::
 
 # Results: Quadrat-Level Presence/Absence Model
 
@@ -325,8 +327,8 @@ tidy(eelgrass_pa_glmm) |>
   kable_styling(font_size = 20)
 ```
 
-##
-
+##  
+:::{style="text-align: center;"}
 ```{r Visualize Presence Absence Model - 3}
 ```
 
@@ -345,6 +347,7 @@ tidy(eelgrass_pa_glmm) |>
   kable() |> 
   kable_styling(font_size = 14)
 ```
+:::
 
 ## Takeaways (and concerns) {.smaller}
 
