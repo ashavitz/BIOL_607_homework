@@ -1,0 +1,96 @@
+---
+title: "model_LaTeX_attempt"
+author: "Aaron Shavitz"
+format: html
+---
+
+$$
+\text{logit}(\mu_{ij}) = \beta_0 + \beta_1 \cdot \text{SSTA}_{ij} + \alpha^{\text{site}}_{0j} + \alpha^{\text{site}}_{1j} \cdot \text{SSTA}_{ij} + \alpha^{\text{year}}_i + \varepsilon_{ij}
+$$
+
+$$
+\begin{aligned}
+\text{Percent Cover}_{ij} &\sim \text{Beta}(\mu_{ij}, \phi) \\
+\text{logit}(\mu_{ij}) &= \beta_0 + \beta_1 \cdot \text{SSTA}_{ij} + \alpha^{\text{year}}_j + \alpha^{\text{site}}_{0i} + \alpha^{\text{site}}_{1i} \cdot \text{SSTA}_{ij} + \varepsilon_{ij} \\
+\text{logit}(\pi_{ij}) &= \gamma_0
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+\alpha^{\text{site}}_{0i} \\
+\alpha^{\text{site}}_{1i}
+\end{bmatrix} &\sim \mathcal{N}
+\left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\Sigma_{\text{site}}
+\right)
+\\
+\alpha^{\text{year}}_j &\sim \mathcal{N}(0, \sigma^2_{\text{year}}) \\
+\varepsilon_{ij} &\sim \mathcal{N}(0, \sigma^2)
+\end{aligned}
+$$
+
+
+#### Term Key
+
+- **SSTA**: Sea Surface Temperature Anomaly (centered)
+- **Percent Cover**: Proportion of eelgrass coverage at a site
+- **Site**: The location where the percent cover was measured
+- **Year**: The year of measurement
+- **β₀**: Fixed intercept
+- **β₁**: Fixed effect of SSTA
+- **α₀ᵢ**: Random intercept for Site *i*
+- **α₁ᵢ**: Random slope for SSTA at Site *i*
+- **αⱼ**: Random intercept for Year *j*
+- **γ₀**: Intercept for the zero-inflation component
+- **εᵢⱼ**: Residual error for observation *j* at Site *i*
+
+
+
+$$
+\begin{aligned}
+\text{Presence}_{ijk} &\sim \text{Bernoulli}(p_{ijk}) \\
+\text{logit}(p_{ijk}) &= \beta_0 + \beta_1 \cdot \text{SSTA}_{ijk} + \alpha^{\text{year}}_j + \alpha^{\text{site}}_{0k} + \alpha^{\text{site}}_{1k} \cdot \text{SSTA}_{ijk} + \alpha^{\text{quadrat}}_{i(k)} + \varepsilon_{ijk}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+\alpha^{\text{site}}_{0k} \\
+\alpha^{\text{site}}_{1k}
+\end{bmatrix} &\sim \mathcal{N}
+\left(
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\Sigma_{\text{site}}
+\right)
+\\
+\alpha^{\text{year}}_j &\sim \mathcal{N}(0, \sigma^2_{\text{year}}) \\
+\alpha^{\text{quadrat}}_{i(k)} &\sim \mathcal{N}(0, \sigma^2_{\text{quadrat}}) \\
+\varepsilon_{ijk} &\sim \mathcal{N}(0, \sigma^2)
+\end{aligned}
+$$
+
+
+#### Term Key
+
+- **SSTA**: Sea Surface Temperature Anomaly (centered)
+- **Presence**: Binary indicator of eelgrass presence (1 = present, 0 = absent)
+- **Site**: The location where the presence was recorded
+- **Quadrat**: A nested sub-location within a Site
+- **Year**: The year of observation
+- **β₀**: Fixed intercept
+- **β₁**: Fixed effect of SSTA
+- **α₀ₖ**: Random intercept for Site *k*
+- **α₁ₖ**: Random slope for SSTA at Site *k*
+- **αⱼ**: Random intercept for Year *j*
+- **αᵢ(ₖ)**: Random intercept for Quadrat *i* nested in Site *k*
+- **εᵢⱼₖ**: Residual error for observation *i* in Year *j* at Site *k*

@@ -339,10 +339,11 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 </ul></li>
 </ul></li>
 <li class="fragment">12 quadrats per transect</li>
-<li class="fragment">Use of group-averaged predictor: site-level centered mean summer SST
+<li class="fragment">Mundlak regression approach
 <ul>
-<li class="fragment">Attempt to address unmeasured site-level confounding variables <span class="citation" data-cites="suskiewicz_ocean_2024">(<a href="#/references" role="doc-biblioref" onclick="">Suskiewicz et al. 2024</a>)</span></li>
-<li class="fragment">Not a full Mundlak regression approach - no inclusion of site-level mean SST <span class="citation" data-cites="correia_designing_2025">(<a href="#/references" role="doc-biblioref" onclick="">Correia, Dee, and Ferraro 2025</a>)</span></li>
+<li class="fragment">Predictor 1: Site-level average mean summer SST (AMST)</li>
+<li class="fragment">Predictor 2: Group-averaged predictor - site-level previous centered mean summer SST (Anomaly)</li>
+<li class="fragment">Attempt to address unmeasured site-level confounding variables <span class="citation" data-cites="suskiewicz_ocean_2024">(<a href="#/references" role="doc-biblioref" onclick="">Suskiewicz et al. 2024</a>)</span> <span class="citation" data-cites="correia_designing_2025">(<a href="#/references" role="doc-biblioref" onclick="">Correia, Dee, and Ferraro 2025</a>)</span></li>
 </ul></li>
 </ul>
 </div>
@@ -363,14 +364,8 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 </section>
 <section id="model-system-dag" class="slide level2">
 <h2>Model System DAG</h2>
-<p><strong>With Confounding</strong></p>
 
-<img data-src="final_presentation_files/figure-revealjs/Confounded%20DAG%20Final-1.png" width="960" class="r-stretch"></section>
-<section id="model-system-dag-1" class="slide level2">
-<h2>Model System DAG</h2>
-<p><strong>Breaking Confounding</strong></p>
-
-<img data-src="final_presentation_files/figure-revealjs/Final%20Anomaly%20DAG-1.png" width="960" class="r-stretch"></section>
+<img data-src="final_presentation_files/figure-revealjs/Full%20Final%20DAG-1.png" width="960" class="r-stretch"></section>
 <section id="model-designs" class="slide level2 smaller">
 <h2>Model Designs</h2>
 <p>Causal analysis - so needed to determine models details in advance based on theory.</p>
@@ -378,14 +373,14 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <ul>
 <li class="fragment">2 Models:
 <ul>
-<li class="fragment">Percent cover predicted by centered mean summer temperature
+<li class="fragment">Percent cover predicted by previous summer sst anomaly &amp; AMST
 <ul>
 <li class="fragment">Aggregate at the site level</li>
 <li class="fragment">Beta regression with logit link for percent cover</li>
 <li class="fragment">Random effects for site &amp; year</li>
 <li class="fragment">Account for zero inflation</li>
 </ul></li>
-<li class="fragment">Presence - Absence predicted by centered mean summer temperature
+<li class="fragment">Presence - Absence predicted by previous summer sst anomaly &amp; AMST
 <ul>
 <li class="fragment">Include data at the quadrad level</li>
 <li class="fragment">Binomial regression with logit link for presence absence</li>
@@ -425,7 +420,8 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <li class="fragment">Including year as random effect helps account for regional year to year error<br>
 </li>
 </ul></li>
-<li class="fragment">Temporal and Spatial Autocorrelation</li>
+<li class="fragment">Heteroscedasticity: Temporal and Spatial Autocorrelation?</li>
+<li class="fragment">Linearity</li>
 </ul></li>
 </ul>
 </div>
@@ -437,8 +433,7 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <ul>
 <li class="fragment">Endogeneity<br>
 </li>
-<li class="fragment">Temporal and Spatial Autocorrelation<br>
-</li>
+<li class="fragment">Heteroscedasticity: Temporal and Spatial Autocorrelation?</li>
 <li class="fragment">Linearity</li>
 </ul></li>
 </ul>
@@ -466,7 +461,7 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <section id="section" class="slide level2">
 <h2></h2>
 
-<img data-src="final_presentation_files/figure-revealjs/Visualize%20Aggregated%20Percent%20Cover%20Model%20-%202-1.png" width="960" class="r-stretch"><div class="cell">
+<img data-src="final_presentation_files/figure-revealjs/Visualize%20Aggregated%20Percent%20Cover%20Model%20-%20Linear%201-1.png" width="960" class="r-stretch"><div class="cell">
 <div class="cell-output-display">
 <table class="table caption-top" data-quarto-postprocess="true" style="font-size: 20px; margin-left: auto; margin-right: auto;">
 <thead>
@@ -483,10 +478,10 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <tr class="odd">
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">sst_centered_prev</td>
-<td style="text-align: right;">-0.36</td>
-<td style="text-align: right;">0.304</td>
-<td style="text-align: right;">-1.184</td>
-<td style="text-align: right;">0.236</td>
+<td style="text-align: right;">-0.313</td>
+<td style="text-align: right;">0.292</td>
+<td style="text-align: right;">-1.073</td>
+<td style="text-align: right;">0.283</td>
 </tr>
 </tbody>
 </table>
@@ -517,7 +512,7 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="final_presentation_files/figure-revealjs/Visualize%20Aggregated%20Percent%20Cover%20Model%20-%203-1.png" width="960"></p>
+<p><img data-src="final_presentation_files/figure-revealjs/Visualize%20Aggregated%20Percent%20Cover%20Model%20-%20Linear%202-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -541,19 +536,19 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">-0.624</td>
-<td style="text-align: right;">0.335</td>
-<td style="text-align: right;">-1.862</td>
-<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">3.994</td>
+<td style="text-align: right;">2.703</td>
+<td style="text-align: right;">1.478</td>
+<td style="text-align: right;">0.139</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">sst_centered_prev</td>
-<td style="text-align: right;">-0.360</td>
-<td style="text-align: right;">0.304</td>
-<td style="text-align: right;">-1.184</td>
-<td style="text-align: right;">0.236</td>
+<td style="text-align: right;">-0.313</td>
+<td style="text-align: right;">0.292</td>
+<td style="text-align: right;">-1.073</td>
+<td style="text-align: right;">0.283</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fixed</td>
@@ -566,9 +561,9 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 </tr>
 <tr class="even">
 <td style="text-align: left;">ran_pars</td>
-<td style="text-align: left;">year</td>
+<td style="text-align: left;">site</td>
 <td style="text-align: left;">sd__(Intercept)</td>
-<td style="text-align: right;">0.313</td>
+<td style="text-align: right;">0.674</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
@@ -576,17 +571,17 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <tr class="odd">
 <td style="text-align: left;">ran_pars</td>
 <td style="text-align: left;">site</td>
-<td style="text-align: left;">sd__(Intercept)</td>
-<td style="text-align: right;">0.842</td>
+<td style="text-align: left;">sd__sst_centered_prev</td>
+<td style="text-align: right;">0.569</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ran_pars</td>
-<td style="text-align: left;">site</td>
-<td style="text-align: left;">sd__sst_centered_prev</td>
-<td style="text-align: right;">0.588</td>
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">sd__(Intercept)</td>
+<td style="text-align: right;">0.320</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
@@ -624,10 +619,10 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <tr class="odd">
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">sst_centered_prev</td>
-<td style="text-align: right;">-0.765</td>
-<td style="text-align: right;">0.483</td>
-<td style="text-align: right;">-1.583</td>
-<td style="text-align: right;">0.114</td>
+<td style="text-align: right;">-0.797</td>
+<td style="text-align: right;">0.481</td>
+<td style="text-align: right;">-1.656</td>
+<td style="text-align: right;">0.098</td>
 </tr>
 </tbody>
 </table>
@@ -667,52 +662,52 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">1.807</td>
-<td style="text-align: right;">0.902</td>
-<td style="text-align: right;">2.005</td>
-<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">8.107</td>
+<td style="text-align: right;">7.408</td>
+<td style="text-align: right;">1.094</td>
+<td style="text-align: right;">0.274</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fixed</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">sst_centered_prev</td>
-<td style="text-align: right;">-0.765</td>
-<td style="text-align: right;">0.483</td>
-<td style="text-align: right;">-1.583</td>
-<td style="text-align: right;">0.114</td>
+<td style="text-align: right;">-0.797</td>
+<td style="text-align: right;">0.481</td>
+<td style="text-align: right;">-1.656</td>
+<td style="text-align: right;">0.098</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ran_pars</td>
-<td style="text-align: left;">year</td>
+<td style="text-align: left;">site</td>
 <td style="text-align: left;">sd__(Intercept)</td>
-<td style="text-align: right;">1.285</td>
+<td style="text-align: right;">2.118</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ran_pars</td>
-<td style="text-align: left;">site</td>
-<td style="text-align: left;">sd__(Intercept)</td>
-<td style="text-align: right;">2.339</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">ran_pars</td>
 <td style="text-align: left;">site</td>
 <td style="text-align: left;">sd__sst_centered_prev</td>
-<td style="text-align: right;">0.956</td>
+<td style="text-align: right;">0.933</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ran_pars</td>
+<td style="text-align: left;">site:site_quadrat</td>
+<td style="text-align: left;">sd__(Intercept)</td>
+<td style="text-align: right;">0.414</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ran_pars</td>
-<td style="text-align: left;">site_quadrat</td>
+<td style="text-align: left;">year</td>
 <td style="text-align: left;">sd__(Intercept)</td>
-<td style="text-align: right;">0.414</td>
+<td style="text-align: right;">1.282</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
@@ -729,7 +724,7 @@ Figure from <span class="citation" data-cites="plaisted_influence_2022">(<a href
 <h2>Takeaways (and concerns)</h2>
 <div>
 <ul>
-<li class="fragment">Found <em>litte to no</em> evidence that 2003-2021 SST Anomalies are driving NE US eelgrass declines
+<li class="fragment">Found <em>litte to no</em> evidence to reject Null, that 2003-2021 SST Anomalies have no effect on NE US eelgrass declines
 <ul>
 <li class="fragment">Does not align with Plaisted et al.&nbsp;2022 results for presence absence</li>
 </ul></li>

@@ -163,9 +163,11 @@ Figure from [@plaisted_influence_2022]
   - Thus cannot distinguish between latitude and site effects
     - That's OK, not interested
 - 12 quadrats per transect
-- Use of group-averaged predictor: site-level centered mean summer SST
+- Mundlak regression approach
+  - Predictor 1: Site-level average mean summer SST (AMST)
+  - Predictor 2: Group-averaged predictor - site-level previous centered mean summer SST (Anomaly)
   - Attempt to address unmeasured site-level confounding variables [@suskiewicz_ocean_2024]
-  - Not a full Mundlak regression approach - no inclusion of site-level mean SST [@correia_designing_2025]
+ [@correia_designing_2025]
 :::
 ::::
 :::::
@@ -176,15 +178,7 @@ Sampling design: Non-clustered (single transect at each site) longitudinal data 
 :::
 
 ## Model System DAG
-
-**With Confounding**  
-```{r Confounded DAG Final}
-```
-
-## Model System DAG
-
-**Breaking Confounding**  
-```{r Final Anomaly DAG}
+```{r Full Final DAG}
 ```
 
 
@@ -194,12 +188,12 @@ Causal analysis - so needed to determine models details in advance based on theo
 
 :::{.incremental}
 - 2 Models: 
-  - Percent cover predicted by centered mean summer temperature
+  - Percent cover predicted by previous summer sst anomaly & AMST
     - Aggregate at the site level
     - Beta regression with logit link for percent cover
     - Random effects for site & year
     - Account for zero inflation
-  - Presence - Absence predicted by centered mean summer temperature
+  - Presence - Absence predicted by previous summer sst anomaly & AMST
     - Include data at the quadrad level
     - Binomial regression with logit link for presence absence
     - Random effects for site, quadrat, & year
@@ -229,7 +223,8 @@ From Jarett's paper "Employing group mean-centered terms in our model allowed us
   - Endogeneity - assuming SST anomaly is not correlated with the error term  
     - but... SST likely correlated with storm events, regional heatwaves, etc.  
     - Including year as random effect helps account for regional year to year error  
-  - Temporal and Spatial Autocorrelation
+  - Heteroscedasticity: Temporal and Spatial Autocorrelation?
+  - Linearity
 :::
 
 ::::
@@ -239,7 +234,7 @@ From Jarett's paper "Employing group mean-centered terms in our model allowed us
 :::{.incremental}
 - Potential concerns:  
   - Endogeneity  
-  - Temporal and Spatial Autocorrelation  
+  - Heteroscedasticity: Temporal and Spatial Autocorrelation?
   - Linearity
 :::
 
@@ -260,7 +255,7 @@ Potential concern: Endogeneity - assuming SST anomaly is not correlated with the
 
 ##
 
-```{r Visualize Aggregated Percent Cover Model - 2}
+```{r Visualize Aggregated Percent Cover Model - Linear 1}
 ```
 
 ```{r}
@@ -285,7 +280,7 @@ tidy(eelgrass_pc_glmm) |>
 
 ##  
 :::{style="text-align: center;"}
-```{r Visualize Aggregated Percent Cover Model - 3}
+```{r Visualize Aggregated Percent Cover Model - Linear 2}
 ```
 
 ```{r}
@@ -352,7 +347,7 @@ tidy(eelgrass_pa_glmm) |>
 ## Takeaways (and concerns) {.smaller}
 
 :::{.incremental}
-- Found *litte to no* evidence that 2003-2021 SST Anomalies are driving NE US eelgrass declines
+- Found *litte to no* evidence to reject Null, that 2003-2021 SST Anomalies have no effect on NE US eelgrass declines
   - Does not align with Plaisted et al. 2022 results for presence absence
 - Relationship btw SST anomalies and eelgrass health metrics appear to vary by site
 - Design flaws:
