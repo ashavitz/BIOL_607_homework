@@ -1,0 +1,111 @@
+---
+title: "Final Self Evaluation"
+author: "Aaron Shavitz - BIOL 607 - Spring 2025"
+format: pdf
+---
+# Final Self Evaluation
+## First, Final Paper Evaluation  
+
+## Presentation  
+**How did it go for you? How well do you think you performed, vis a vis the weak, satisfactory, and strong rubric.**  
+- Overall I believe my presentation was strong, however I ackoledge that I made it too long and had to rush. I also didn't realize the full Mundlak approach was needed for causal analysis, but I have since corrected that in the presentation and paper. I felt very good about the content and appearance, as well as my understanding of the methods.  
+
+## The paper  
+## Please rate yourself as weak, sufficient, or strong on the following criteria, and tell me why.  
+
+**Did you give the reader enough background to understand what you were going to do (note, this should be a small - a tiny - amount relative to everything else)?**  
+- Sufficient - I could have made a more thorough introduction, but I focused mostly on the analysis. I believe the introduction sufficiently provided enough context for the reader to understand the important of the analysis.  
+
+**Clear statement of questions & hypotheses?**  
+- Strong. Clearly stated in the introduction, and addressed in later sections.  
+
+**Did you discuss and justify whether your analysis was predictive, causal, associative, or some combination of the three?**  
+- Strong - I clearly discussed that this was intended to be a causal analysis, and explained the use of the Mundlak approach.  
+
+**Did you discuss how you would use statistical modeling to answer your questions?**  
+- Strong - yes, I explained my models well.  
+
+**Did you describe the data - what it is, its limitations, and its uses appropriate to your study goals?**  
+- Strong - yes, I made clear where my assumptions were not fully met, and clearly explained and analyzed my results, interpretations, and limitations.  
+
+**For those that needed, did you describe how and why you processed and cleaned your data the way that you did?**  
+- Sufficient. I thoroughly explained how I calculated my predictors. I did not go into excruciating detail on all aspects of how I cleaned and organized the data, as I felt this would be excessive detail, but I provided all the code in zip file so if any readers want to understand these extra details the code is available for them!  
+
+**Did you justify why the analyses and modeling approaches you chose were appropriate for the problem?**  
+- Strong - Yes, for example I explained why beta and binomial error distributions were appropriate for the data structure, and why I included the random effects I used.  
+
+**Did you show that you performed a valid analysis?**  
+- Strong. Largely yes. I did include models that struggled with heteroscedasticity likely due to issues with linearity and autocorrelation impacting independence of error. However I clearly explained this shortcoming and caveated my interpretations with this. I also included the use of splines in an alternative model in the paper, which I believe was above and beyond, because we did not discuss how to apply these methods in class, and I spent a sizeale amount of time researching how to apply these methods.  
+
+**Did you execute it properly?**  
+- Strong - Yes!
+
+**Did you overcome assumption violations, or inferential traps (p-values, etc.)?**  
+- Sufficient/Strong - As discussed, I overcame the assumption violation of heteroscedasticity (likely due to issues with linearity and autocorrelation impacting independence of error) in one instance by including splines. I was not able to overcome this for one of my models, but most other assumptions checked out, and the results/interpretation was discuss with the caveat of the model not meeting those few assumptions.  
+- I do not believe I fell into any inferenial traps.  
+
+**Did you use your model to answer your initial question well? Was it a query engine? Did it generate answers to clear hypotheses?**  
+- Strong- Yes, I directly used my model to answer my question and connected the results back to my hypothesis by querying the model.  
+
+**Did you describe their results cleanly and clearly, as well as their limitations?**  
+- Strong - As discussed above, yes I did this clearly and explained limitations.  
+
+**Were you able to draw clear conclusions, or at least next steps/future directions based on what you’ve done here?**  
+- Sufficient - Yes, I was able to draw conclusions, although given that I had to caveat the results with challenges to model assummptions, I could have gone deeper into discussing future directions.  
+
+**Was your code visible and well described?**  
+- Very strong - I spent a lot of time organizing and annotating my code. I think I excelled here.  
+
+## Overall  
+**Please rate your paper as weak, sufficient, or strong, and tell me why.**  
+- Strong - I believe my paper demonstrates a strong understanding of the material covered in class, that the code is clear and organized, that sufficient background is provided, that results are made clear, and that the plots look good.  
+
+## Final Self-Evaluation  
+
+**How are you? How has your semester been? Where are you in headspace right now?**  
+- I am good(ish). I love this class. I have put a TON of work into understanding things and getting better with R. My concern is that I may have rushed organizing and putting together the last parts of the paper because I spent so much time making sure I understood the analysis and that everything was executed correctly. I spend a lot of time reviewing assumption checks to make sure I could correctly interpret the model check and DHARMa outputs. I a proud of what I learned and produced, but unfortunately let myself be rushed on a few writing pieces at the end, which I don't feel great about.  
+
+## Learning Objectives  
+## This course had several learning objectives. Please comment on how you feel you have advanced in each of them. Have you achieved them in a way that is satisfactory to you? Please comment on your performance for each objective.  
+
+**1) To learn how to think about your study system and research question of interest in a systematic way in order to design an efficient observational or experimental research program.**  
+- I have absolutely advanced here. Frankly, my study system (eelgrass) was new to me at the start of this semester, so I learned the system alongside this class. Thanks to this class, I believe I am much more capable of understanding analyses on my study system (and others) in existing literature, and have been able to directly apply what we have learned to my study system, thus improving my ability to design and execute my future research.  
+
+**2) To understand how to analyze collected data to derive the most information possible about your research questions.**  
+- A big part of this class and my research assistantship has involved finding and processing existing data to extract insights. I have definitely improved (although have a lot more to learn!).  
+
+**3) Provide the grounding needed to effectively collaborate with statistical experts.**  
+- Absolutely. My vocabulary (and understanding of it) has massively improved from this class. Most importantly, I feel this class gave me a foundation to be able to learn new methods effectively, which will enable me to collaborate with statistical experts.  
+
+**4) Allow students to feel sufficiently comfortable with the basic principles of statistical analysis so that they can learn and implement techniques outside of the purview of this course.**  
+- 1000%%. As mentioned above, I feel this class gave me a foundation to be able to learn new methods effectively in the future.  
+
+
+## Let’s dig a little deeper  
+## Answer each of the below.  
+
+**Tell me about your relationship with thinking about your system of interest, the pathways of causality within it, and how you ask a research question. What has changed over the course of the semester from who you were in September to who you are now?**  
+- I understand much better the challenges to causal analyses with observational data, and the importance in study design in determining possible interpretations and statistical power. I am much more confident in my ability to structure a meaningful, testable research question, even if I am limited to existing observational data rather than collecting my own data in a controlled experiment (which may end up being the case).  
+- What has changed is I've learned new statistical methods and tools, and been able to explore those in the context of existing studies and my current resarch.  
+
+**How do you feel you are able to translate your questions about your system of interest into statistical models. What has changed over the course of the semester from who you were in September to who you are now?**  
+- I can do it now! Previously, I wouldn't have been able to (or at least not well).  
+
+**What is your grasp on inference? How do you feel you will approach deriving inference from models now that you have been through this course? What has changed over the course of the semester from who you were in September to who you are now?**  
+- I feel I have a strong grasp on inference, at least within the context of the types of models we discussed, but I think also beyond. The importance of understanding the scope and bias of the data and models build on this data has been clearly conveyed in this class, and I have more confidence in being able to interpret results and make inferences which are appropriately limited by the scope of the data and models used.  
+
+**Code - it’s how we work with data. How do you feel about coding? How do you feel about how you will work with it into the future? What has changed over the course of the semester from who you were in September to who you are now?**  
+- Love this. I enjoy coding in R (for the most part) and feel it will be a useful skillset for analysis, data management, and visualizing data in the future for me. I am already using it in my research assistantship position. As far as what has changes for me, I previously could not implement any thing of actual use in R (I was really limited to Excel), and now I am confident in many basic areas, and comfortable exploring more advanced skills, enabling me to actually provide useful, productive code.  
+
+**Given this course, how do you see yourself developing as a scientist on into the future? This could be about how you see yourself developing in terms of designing studies, making inferences, expanding your toolkit, or more. How has this changed who you are and who you will become as a scientist?**  
+- I see myself considering the statistical analysis in papers I read more critically. I also definitely see myself continuing to work in R, in order to have a centralized tool kit for analysis and visualization, regardless of what direction I go.  
+
+## Pause. Re-read everything you just wrote.  
+## OK, then. Final question.  
+**Given all you have just said, and really thinking about what is possible in the span of just one semester, what letter grade (bearing in mind we don’t have A+ at UMB) would you give yourself? Why? Note, I reserve the right to change this (and I’ve seen most of you be too down on yourseelves!), but, in all likelihood, this will be your course grade. Tell me what it about it.**  
+- A!  
+- I believe I have a strong understanding of much of the material covered in this class, and that this has been demonstrated by my homework assignments and class engagement. I don't say A+, because there are certainly concepts and application I struggled with, which was demonstrated on the mid term exam.  
+- Effort does not equate to a good grade, but I should mention that I have put a TON of time and work into this class, often in the form of reviewing lectures and searching the internet to make sure I understood concept as I applied them in homework and the final. I spent time learning how to apply splines in the final, which I believe was above and beyond the scope of the class.  
+- I also spent a ton of time improving my programming skillset, and have improved the quality and organization of my code greatly. I learned how to manage git version control and push work to git hub.  
+- I know I didn't master everything in the class, but the purpose of a class is to expose you to new material and prepare you to use and master it in the future beyond the class. In this sense, I believe I certainly achieved the goals of the class to an extent worthy of an A! 
+
