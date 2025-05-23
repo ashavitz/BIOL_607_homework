@@ -1,0 +1,372 @@
+---
+title: "How do SST Anomalies Impact Eelgrass Cover? A Causal Analysis"
+author: "Aaron Shavitz"
+date: "May 16, 2025"
+bibliography: bibliography/references.bib
+format: 
+  revealjs:
+    theme: moon
+    transition: slide
+    css: custom.css
+    
+---
+```{r setup, include=FALSE}
+# Using knitr package to read code chunks from sst_anaysis.R and system_dag.R
+
+# Process the entire R script without displaying, so isolated code chunks can be run later
+source("../scripts/sst_analysis.R")
+source("../scripts/system_dag.R")
+
+# Read in the R script from the 'scripts' folder (relative to the root project directory)
+knitr::read_chunk("../scripts/sst_analysis.R")
+knitr::read_chunk("../scripts/system_dag.R")
+```
+
+## Eelgrass! {background-image="images/seagrassnet_cover_photo.jpeg" style="text-align: center;"}
+:::footer
+Image from www.seagrassnet.org
+:::
+
+## *Zostera marina*   -   AKA   -   Eelgrass {}
+
+:::::{.columns .center}
+::::{.column width=50%}
+![](images/istock-651462262_eelgrass_bed-scaled2.jpeg)
+::::
+::::{.column width=50%}
+:::{.incremental}
+- Predominant seagrass species in the US
+- Foundation species
+- Ecosystem services
+  - Fish nursery
+  - Carbon storage
+  - Wave attenuation
+:::
+::::
+:::::
+
+:::{.footer}
+Figure from oceana.ca
+:::
+
+
+:::{.notes}
+Foundation species - along with other seagrasses
+
+(INTRODUCE WHAT EELGRASS IS AND QUICK HIGHLIGHTS OF VALUE)
+:::
+
+
+## Northeastern Eelgrass Populations have Declined {.smaller}
+
+:::::{.columns}
+::::{.column width=50% style="text-align: center;"}
+1995  
+![](images/cape_cod_eg_cover_1995.png){width=50%}  
+2023  
+![](images/cape_cod_eg_cover_2023.png){width=50%}
+::::
+::::{.column width=50%}
+:::{.incremental}
+- Likely many compounding factors, varying in influence by location:
+  - Temperature stress
+  - Boating and fishing activity
+  - Sediment movement and disruption
+  - Wasting Disease
+  - Uprooting by green crabs
+  - Storm events
+  - Turbidity
+:::
+::::
+:::::
+
+:::{.footer}
+Images from MASS DEP
+:::
+
+:::{.notes}
+And are continuing to decline   
+Why?  
+(DISCUSS HOW EELGRASS IS DECLINING IN THE NE AND HOW THERE IS A SUITE OF POTENTIAL CAUSES LIKELY COMPOUNDING, AND VARYING BY LOCATION)
+:::
+
+
+## Let's Take a Look at Temperature Stress
+
+:::{.incremental}
+- **Goal:** Identify Leading Widespread Causes of Decline
+- **Question:** Is temperature a leading cause of decline?
+- People have already looked!
+  - [@plaisted_influence_2022] - Buoys & Seafloor Temp
+- But Wait! We don't have buoys & seafloor data everywhere
+  - We DO have SST satellite data everywhere
+  - Can we do this analysis with satellite SST data?
+:::
+
+:::{.notes}
+- INTRODUCE PLAISTED PAPER PREVIOUS WORK
+- INTRODUCE RESEARCH QUESTION
+
+Hypothesis: Summer SST temperature anomolies one year prior to monitoring, measured via remote sensing, is a significant predictor of eelgrass presence and abundance on a NortheastUS regional scale. (modified from Plaisted et al. 2022)
+
+:::
+
+<!-- ## Hypothesis -->
+
+<!-- Summer SST anomalies one year prior to monitoring, as measured via remote sensing, affect eelgrass presence or abundance on a Northeast US regional scale. -->
+
+## Data Sources {.smaller}
+
+:::::{.columns .center}
+::::{.column width=50% style="text-align: center;"}
+![](images/NOAA-color-logo-web.png){width=50%}
+![](images/JPL_logo.png){width=65%}
+
+SST, Multi-scale Ultra-high Resolution (MUR JPL), Daily 1km East Coast, 2003-2021
+::::
+
+::::{.column width=50% style="text-align: center;"}
+![](images/seagrassnet_logo.png){width=80%}
+![](images/Plaisted_title_screenshot.png){width=80%}
+
+Note - Only shallowest transects included  
+[@plaisted_influence_2022]
+::::
+:::::
+
+
+:::{.notes}
+INTRODUCE DATA SOURCES
+:::
+
+## How Does JPL SST Compare with Bouy & In Situ Temperature?
+```{r Plot Compare CoastWatch SST to Plaisted Temperature}
+```
+
+
+## How Do SST *Anomalies* Compare with Bouy & In Situ Temp *Anomalies*?
+```{r Plot Compare Anomalies CoastWatch SST to Plaisted Temperature}
+```
+
+
+## Designing with Causal Analysis in Mind {.smaller}
+
+:::::{.columns}
+::::{.column width=40%}
+![](images/study_sites_plaisted_2022.png)  
+Figure from [@plaisted_influence_2022]
+::::
+::::{.column width=60%}
+:::{.incremental}
+- Longitudinal data
+- Non-clustered (single transect at each site)
+  - Thus cannot distinguish between latitude and site effects
+    - That's OK, not interested
+- 12 quadrats per transect
+- Use of group-averaged predictor: site-level centered mean summer SST
+  - Attempt to address unmeasured site-level confounding variables [@suskiewicz_ocean_2024]
+  - Not a full Mundlak regression approach - no inclusion of site-level mean SST [@correia_designing_2025]
+:::
+::::
+:::::
+
+
+:::{.notes}
+Sampling design: Non-clustered (single transect at each site) longitudinal data (Correia et al. 2025). This sampling design is relevant for examining the within-site effects of SST. We don't have multiple transects/sites/"plots" at each latitude, so we can't distinguish between latitude and site effects across sites, but that is okay because we aren't interested in that.
+:::
+
+## Model System DAG
+
+**With Confounding**  
+```{r Confounded DAG Final}
+```
+
+## Model System DAG
+
+**Breaking Confounding**  
+```{r Final Anomaly DAG}
+```
+
+
+## Model Designs {.smaller}
+
+Causal analysis - so needed to determine models details in advance based on theory.
+
+:::{.incremental}
+- 2 Models: 
+  - Percent cover predicted by centered mean summer temperature
+    - Aggregate at the site level
+    - Beta regression with logit link for percent cover
+    - Random effects for site & year
+    - Account for zero inflation
+  - Presence - Absence predicted by centered mean summer temperature
+    - Include data at the quadrad level
+    - Binomial regression with logit link for presence absence
+    - Random effects for site, quadrat, & year
+:::
+
+:::{.notes}
+Aanalytic frameworks: 
+  - Binomial regression with logit link for presence absence. Binomial b/c odds of presence.
+  - Beta regression with logit link for percent cover (abundance). Beta b/c percent cover.
+  - Logit for both because this is the canonical link for both, and allows for converting linear
+    outcome to odds, and for converting linear outcome to bounded (beta) outcome
+  - Only transect A is included, as depth differences vary between sites, so only using the shallowest
+    makes this depth more consistent. Also SST is more likely to be reflective of water temperature
+    at shallower depths.
+
+From Jarett's paper "Employing group mean-centered terms in our model allowed us to use the longitudinal data and pull out the signal of other, unmeasured subregional drivers that are correlated with temperature or sea urchin density. This technique for handling confounding omitted variable bias"
+:::
+
+## Model Checks {.smaller}
+
+:::::{.columns}
+::::{.column width=50%}
+**Aggregated Percent Cover Model**  
+
+:::{.incremental}
+- Potential concerns:  
+  - Endogeneity - assuming SST anomaly is not correlated with the error term  
+    - but... SST likely correlated with storm events, regional heatwaves, etc.  
+    - Including year as random effect helps account for regional year to year error  
+  - Temporal and Spatial Autocorrelation
+:::
+
+::::
+::::{.column width=50%}
+**Presence Absence Model**  
+
+:::{.incremental}
+- Potential concerns:  
+  - Endogeneity  
+  - Temporal and Spatial Autocorrelation  
+  - Linearity
+:::
+
+::::
+:::::
+
+:::{.notes}
+Potential concern: Endogeneity - assuming SST anomaly is not correlated with the error term
+  - For glmm, this is predominantly argued logically, based on theory/DAG
+    - This may not pass, because SST anomaly could be correlated with storm events 
+      (e.g. mixing impacting SST and eelgrass), turbidity from chlorophyll, and other error. 
+      But generally, we assume the majority of factors influencing eelgrass cover would not
+      be correlated with SST anomaly, such as boating/fishing activity...? Including year as 
+      random effect also helps account for storm events. 
+:::
+
+# Results: Site-Aggregated Percent Cover Model
+
+##
+
+```{r Visualize Aggregated Percent Cover Model - 2}
+```
+
+```{r}
+library(broom.mixed)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Output table of summary statistics
+tidy(eelgrass_pc_glmm) |> 
+  filter(term == "sst_centered_prev") |>
+  select(-c(component, group)) |> 
+  mutate(across(estimate:p.value, ~round(., 3))) |>
+  kable() |> 
+  kable_styling(font_size = 20)
+```
+
+
+:::{.notes}
+- The zero inflation intercept tells us ~15% of our zeros are structural - not modeled well by my model
+:::
+
+##  
+:::{style="text-align: center;"}
+```{r Visualize Aggregated Percent Cover Model - 3}
+```
+
+```{r}
+library(broom.mixed)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Output table of summary statistics
+tidy(eelgrass_pc_glmm) |> 
+  filter(term %in% c("(Intercept)", "sst_centered_prev",
+                     "sd__(Intercept)", "sd__sst_centered_prev")) |>
+  select(-c(component)) |> 
+  mutate(across(estimate:p.value, ~round(., 3))) |>
+  kable() |> 
+  kable_styling(font_size = 14)
+```
+:::
+
+# Results: Quadrat-Level Presence/Absence Model
+
+##
+
+```{r Visualize Presence Absence Model - 2}
+```
+
+```{r}
+library(broom.mixed)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Output table of summary statistics
+tidy(eelgrass_pa_glmm) |> 
+  filter(term == "sst_centered_prev") |>
+  select(-c(component, group)) |> 
+  mutate(across(estimate:p.value, ~round(., 3))) |>
+  kable() |> 
+  kable_styling(font_size = 20)
+```
+
+##  
+:::{style="text-align: center;"}
+```{r Visualize Presence Absence Model - 3}
+```
+
+```{r}
+library(broom.mixed)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# Output table of summary statistics
+tidy(eelgrass_pa_glmm) |> 
+  filter(term %in% c("(Intercept)", "sst_centered_prev",
+                     "sd__(Intercept)", "sd__sst_centered_prev")) |>
+  select(-c(component)) |> 
+  mutate(across(estimate:p.value, ~round(., 3))) |>
+  kable() |> 
+  kable_styling(font_size = 14)
+```
+:::
+
+## Takeaways (and concerns) {.smaller}
+
+:::{.incremental}
+- Found *litte to no* evidence to reject Null, that 2003-2021 SST Anomalies have no effect on NE US eelgrass presence and % cover
+  - Does not align with Plaisted et al. 2022 results for presence absence
+- Relationship btw SST anomalies and eelgrass health metrics appear to vary by site
+- Design flaws:
+  - Endogeneity - Assuming SST anomaly is not correlated with error may be flawed
+    - Storm events, regional heatwaves, etc.
+    - Plaisted 2022 used Year as a predictor
+  - Temporal and Spatial Autocorrelation
+  - Non-linearity: Plaisted 2022 used splines
+:::
+
+
+# References
+
+:::{#refs}
+:::
+
+# Thank You!
