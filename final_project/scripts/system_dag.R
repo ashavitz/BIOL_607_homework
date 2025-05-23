@@ -14,7 +14,7 @@ library(dplyr)
 
 # Build eeglrass DAG, where all effects other than SST are included in 
 # unmeasured random site effect, year effects, or quadrat effects
-# Include site_effects impact SST, which would cause endogeneity problems for our models
+# Include site_effects impact SST, which would cause endogeneity problems for my models
 eelgrass_dag_initial <- dagify(
   eelgrass_cover ~ sst + site_effects + year + quadrat_effects,
   quadrat_effects ~ site_effects, 
@@ -135,7 +135,6 @@ ggplot(eelgrass_dag_anomaly_tidy,
 
 # ---- Confounded DAG ----
 
-
 ## Beautify DAG
 coordinates(eelgrass_dag_initial) <- list(
   x = c(sst = 0,
@@ -214,6 +213,131 @@ ggplot(eelgrass_dag_initial_tidy,
   xlim(c(-1, 10)) +
   ylim(c(-0.5, 5)) +
   theme_dag_blank()
+
+
+
+
+# ---- Full Final DAG - Setup ----
+
+# Build eeglrass DAG, where all effects other than SST are included in 
+# unmeasured random site effect, year effects, or quadrat effects
+# Include site_effects impact SST, but SST anomaly is endogenous
+eelgrass_dag_final <- dagify(
+  eelgrass_cover ~ sst + sst_anomaly + site_effects + year + quadrat_effects,
+  quadrat_effects ~ site_effects, 
+  sst ~ site_effects
+)
+
+# Initial look at DAG
+eelgrass_dag_final |> plot()
+
+
+# SST -> eelgrass cover (direct effects)
+adjustmentSets(eelgrass_dag_final,
+               exposure = "sst",
+               outcome = "eelgrass_cover",
+               effect = "direct",
+               type = "minimal")
+
+# SST -> eelgrass cover (total effects)
+adjustmentSets(eelgrass_dag_final,
+               exposure = "sst",
+               outcome = "eelgrass_cover",
+               effect = "total",
+               type = "all")
+
+
+# If we calculate the SST anomaly, that is the annual SST relative to the average SST
+# at each site. Including average mean SST breaks the causal connection from site_effects to 
+# SST (anomaly), allowing for exogenous link from SST anomaly to eelgrass cover
+
+
+## Beautify DAG
+coordinates(eelgrass_dag_final) <- list(
+  x = c(sst = 0,
+        sst_anomaly = 0,
+        site_effects = 3,
+        quadrat_effects = 6,
+        year = 6,
+        eelgrass_cover = 6),
+  
+  y = c(sst = 2,
+        sst_anomaly = 0,
+        site_effects = 4,
+        quadrat_effects = 4,
+        year = 0,
+        eelgrass_cover = 2)
+)
+
+# Tidy and relabel
+eelgrass_dag_final_tidy <- tidy_dagitty(eelgrass_dag_final)
+eelgrass_dag_final_tidy$data$name <- dplyr::recode(
+  eelgrass_dag_final_tidy$data$name,
+  eelgrass_cover = "Eelgrass Cover",
+  sst = "Avg-Mean SST",
+  sst_anomaly = "SST Anomaly",
+  site_effects = "Site Effects",
+  quadrat_effects = "Quadrat Effects",
+  year = "Year"
+)
+
+# Adjust arrows to reduce overlap
+eelgrass_dag_final_tidy$data <- eelgrass_dag_final_tidy$data |> 
+  mutate(
+    xstart = case_when(
+      name == "Quadrat Effects" ~ 6,
+      name == "Site Effects" & to == "eelgrass_cover" ~ 3.11,
+      name == "Site Effects" & to == "quadrat_effects" ~ 3.25,
+      name == "Site Effects" & to == "sst" ~ 2.95,
+      name == "Avg-Mean SST" ~ 0.3,
+      name == "SST Anomaly" ~ 0.1,
+      name == "Year" ~ 6
+    ),
+    ystart = case_when(
+      name == "Quadrat Effects" ~ 3.85,
+      name == "Site Effects" & to == "eelgrass_cover" ~ 4,
+      name == "Site Effects" & to == "quadrat_effects" ~ 4,
+      name == "Site Effects" & to == "sst" ~ 3.95,
+      name == "Avg-Mean SST" ~ 2,
+      name == "SST Anomaly" ~ 0.1,
+      name == "Year" ~ 0.15
+    ),
+    xend = case_when(
+      name == "Quadrat Effects" ~ 6,
+      name == "Site Effects" & to == "eelgrass_cover" ~ 5.9,
+      name == "Site Effects" & to == "quadrat_effects" ~ 5.7,
+      name == "Site Effects" & to == "sst" ~ 0.1,
+      name == "Avg-Mean SST" ~ 5.7,
+      name == "SST Anomaly" ~ 6,
+      name == "Year" ~ 6
+    ),
+    yend = case_when(
+      name == "Quadrat Effects" ~ 2.2,
+      name == "Site Effects" & to == "eelgrass_cover" ~ 2.1,
+      name == "Site Effects" & to == "quadrat_effects" ~ 4,
+      name == "Site Effects" & to == "sst" ~ 2,
+      name == "Avg-Mean SST" ~ 2,
+      name == "SST Anomaly" ~ 1.85,
+      name == "Year" ~ 1.85
+    )
+  )
+
+# ---- Full Final DAG ----
+
+# Plot the DAG
+ggplot(eelgrass_dag_final_tidy,
+       aes(x = x, y = y,
+           xend = xend, yend = yend)) +
+  geom_dag_node(shape = 5, size = 25, color = "blue") +
+  geom_dag_text(size = 3, color = "black") +
+  geom_dag_edges(
+    aes(x = xstart, y = ystart),
+    edge_width = 1.2
+  ) +
+  xlim(c(-1, 10)) +
+  ylim(c(-0.5, 5)) +
+  theme_dag_blank()
+
 
 
 
