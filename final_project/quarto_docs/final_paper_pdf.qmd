@@ -1,6 +1,6 @@
 ---
 title: "Impact of Summer SST Anomalies on Northeastern US Eelgrass Cover"
-author: "Aaron Shavitz"
+author: "Aaron Shavitz - UMB BIOL 607 Spring 2025"
 date: "May 3, 2025"
 bibliography: bibliography/references.bib
 format:
@@ -8,6 +8,7 @@ format:
     echo: false
     warning: false
     message: false
+    geometry: margin=1.3in
 ---
 ```{r setup, include=FALSE}
 # Using knitr package to read code chunks from sst_anaysis.R and system_dag.R
@@ -22,20 +23,26 @@ knitr::read_chunk("../scripts/system_dag.R")
 ```
 
 
-### Introduction  
+## Introduction  
 Eelgrass, *Zostera marina*, is the predominant seagrass species in the U.S. and is known to provide a foundational coastal habitat in addition to numerous ecosystem services. In light of the value the species provides, significant population declines observed along the northeastern U.S. coast over the last three decades are a cause for concern. Numerous causes for the declines have been proposed and investigated, including nutrient pollution, climate change driven temperature stress, sediment disruption, and light availability.[@jabbari_modelling_2024] Substantial focus has been placed on investigating the impacts of temperature stress in the northeast U.S. region due to the particularly high rates of warming in marine ecosystems [@plaisted_influence_2022] [@seidov_recent_2021]. Existing studies tend to utilize in-situ water temperature measurements, such as buoy and seafloor measurements, as these are known to be the most accurate reflection of actual temperature conditions for eelgrass [@plaisted_influence_2022]. However given the challenges of collecting in-situ measurements over large spatial extents, there is a need to be able to utilize alternative water temperature measurements with larger spatial resolutions and extents for eelgrass studies, especially as eelgrass mapping data improves [@jabbari_modelling_2024].  
 
 The purpose of this study is to investigate whether SST anomalies can be used a proxy for more accurate in-situ water temperature measurements. The primary approach I take is to conduct an analysis similar to that of Plaisted et al. 2022 [@plaisted_influence_2022], in which eelgrass cover is predicted by sea surface temperature (SST) anomalies, except using satellite derived SST measurements in place of in-situ measurements. I hypothesize that summer SST anomalies one year prior to monitoring, measured via remote sensing, affect eelgrass presence and abundance on a northeastern U.S. regional scale. I attempt to test this hypothesis using a Mundlak regression approach in order to draw a causal connection between SST anomalies and eelgrass cover using observational data.
 
+```{=latex}
+\newpage
+```
 
-### Methods  
+## Methods  
 
 
 #### Data Sources  
 Eelgrass monitoring data for this analysis comes from SeagrassNet.org but was accessed via the data download from Plaisted et al. 2022 [@plaisted_influence_2022]. The data provided by Plaisted et al. 2022 provided additional years of monitoring data for some sites which were not yet available on SeagrassNet.org. The monitoring data used includes eelgrass percent cover measurements taken during peak growing season according to a standardized global SeagrassNet protocol [@plaisted_influence_2022]. Measurements are taken along 50-m transects parallel to the shoreline, each containing 12 quadrats. 
 
-![](images/study_sites_plaisted_2022.png){width="50%"}  
+```{r include_image, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("images/study_sites_plaisted_2022.png")
+```
 *Figure 1 - Map of the 8 northeastern U.S. SeagrassNet eelgrass monitoring sites examined in this study. Figure from [@plaisted_influence_2022].*
+
 
 Monitoring for SeagrassNet includes multiple transects at varying depths, however for this analysis only the shallowest transects were included, as was the case for Plaisted et al. 2022, in an attempt to standardize the depth of measurements analyzed. Inclusion of only the shallowest transects is also preferred for this analysis as SST is more likely to be representative of seafloor temperatures in shallower transects. Eight sites are included in the analysis ranging in latitude along the northeast coast of the US, from Maryland up to New Hampshire. As the collected data is non-clustered [@correia_designing_2025], with only a single transect at each site, I cannot distinguish between latitude and site effects, and thus latitude effects are grouped in with site effects.  
 ```{r Load and Organize Data from Plaisted et al. 2022}
@@ -51,16 +58,31 @@ Prior to initiating the analysis, I wanted to understand how well the JPL SST da
 ```{r Compare CoastWatch sst to Plaisted et al. 2022 Temperature Data}
 ```
 
-a)
-```{r Plot Compare CoastWatch SST to Plaisted Temperature}
+```{=latex}
+\begin{center}
+\begin{tabular}{rl}
+\textbf{a)} &
 ```
 
-b)
-```{r Plot Compare Anomalies CoastWatch SST to Plaisted Temperature}
+```{r Plot Compare CoastWatch SST to Plaisted Temperature, fig.width=6, fig.height=3.8, fig.align='default', out.width='90%'}
+```
+
+```{=latex}
+\\[1em]
+\textbf{b)} &
+```
+
+```{r Plot Compare Anomalies CoastWatch SST to Plaisted Temperature, fig.width=6, fig.height=3.8, fig.align='default', out.width='90%'}
+```
+
+```{=latex}
+\end{tabular}
+\end{center}
 ```
 *Figure 2 - a) NASA Jet Propulsion Lab SST satellite measurements during the study period plotted alongside in-situ (bouy and seafloor transect) temperature measurements used by [@plaisted_influence_2022]. b) SST Anomalies calculated from NASA Jet Propulsion Lab SST during the study period plotted alongside SST anomalies from in-situ temperature measurements used by [@plaisted_influence_2022].*
 ```{r Correlation Between CoastWatch SST to Plaisted Temperature - Site Random Effect, fig.show = "hide", results = "hide"}
 ```
+
 
 
 #### Study Design  
@@ -69,7 +91,8 @@ The primary goal of this project was to investigate whether causal relationship 
 To attempt to design a causal analysis with existing observational, I applied the Mundlak regression approach which uses group-averaged predictors at the site level to attempt to pull out the impact of unmeasured site-level confounding variables [@correia_designing_2025]. In the context of my analysis, the predictor of interest is the PS-SSTA, and the AMS-SST for each site is included as an additional predictor to account for unmeasured site-level drivers correlated with summer SST and eelgrass cover [@suskiewicz_ocean_2024]. The ability of including this site-level group-averaged predictor to break confounding can be demonstrated using directed acyclic graphs (DAGs) of the study design. In Figure 3 below, PS-SSTA is made exogenous because the AMS-SST accounts for confounding.  
 ```{r Full Final DAG – Setup}
 ```
-```{r Full Final DAG}
+
+```{r Full Final DAG, fig.show='hold', fig.width=8, fig.height=4.5, out.width="80%", fig.align='center'}
 ```
 *Figure 3 - Directed Acyclic Graph (DAG) of study design. Following a Mundlak regression approach, summer SST anomaly is made exogenous via the inclusion of site-level average mean summer SST.*
 
@@ -94,7 +117,8 @@ Remaining model assumptions and residuals were evaluated using the DHARMa and pe
 The main assumption violation that arose in model checks was the review of DHARMa residuals vs. model predictions, which indicated the residual distribution was not constant, i.e. homoscedasticity was not met, despite the scaled residuals being relatively uniformly distributed overall according to the KS test. Failure of the homoscedasticity assumption is likely explained by the model failing the linearity assumption, and possibly the independence of errors (whether all replicates truly independent) assumption due to the fact that there may be temporal autocorrelation between percent cover measurements taken in consecutive years. In order to relax the linearity assumption and allow for nonlinear effects, I fit additional models with natural spline transformations on the PS-SSTA predictor, with degrees of freedom from 2 through 5, and compared their fits via AIC comparison. Each of the spline models fit the data better than the original linear model, although only the model with 3 degrees of freedom showed relatively constant residual distribution, so this model was used for analysis alongside the original linear model. The spline model passed all other assumptions, and did not invalidate my hypothesis as I only predicted SST anomalies would affect eelgrass cover, without specifying a specific relationship. The original linear model was kept for interpretability of the results, despite failing the homoscedasticity, linearity, and independence of errors assumptions.  
 ```
 eelgrass_pc_glmm <- glmmTMB(
-  percent_cover ~ splines::ns(PS_SSTA, df = 3) + AMS_SST + (1 + PS_SSTA | Site) + (1 | Year),
+  percent_cover ~ splines::ns(PS_SSTA, df = 3) 
+      + AMS_SST + (1 + PS_SSTA | Site) + (1 | Year),
   family = beta_family(link = "logit"),
   ziformula = ~1,
   data = eelgrass_data_aggregated)
@@ -105,27 +129,41 @@ The impact of PS-SSTA was next examined using binary presence or absence of eelg
 
 ```
 eelgrass_pa_glmm <- glmmTMB(
-  presence ~ PS_SSTA + AMS_SST + (1 + PS_SSTA | site) + (1 | site:site_quadrat) + (1 | year),
+  presence ~ PS_SSTA + AMS_SST
+      + (1 + PS_SSTA | site) + (1 | site:site_quadrat) + (1 | year),
   family = binomial(link = "logit"),
   data = eelgrass_data)
 ```
 All of the same model checks were run for the presence-absence model, and again many of the assumptions passed but homoscedasticity failed as shown both by the DHARMa residuals vs. model predictions, as well as by the binned residuals falling significantly beyond the error bounds. This was likely driven once again by failures of the linearity and independence of errors assumptions. I applied the same method of including natural spline transformations for PS-SSTA with degrees of freedom 2 through 5, however in this instance none of the additional models fit the data significantly better according to an AIC analysis, and all continued to fail the homoscedasticity assumption. In addition to non-linearity, a possible explanation for this is a significant failure of the independence of errors assumptions, since there would be significant spatial autocorrelation between quadrats within the same transect, as well as temporal autocorrelation between measurements taken in successive years.    
 
 
-### Results: Aggregated Percent Cover Model  
+## Results: Aggregated Percent Cover Model  
 ```{r Make Data Frame of Predicted Values for Model Plotting – 1}
 ```
 ```{r Make Data Frame of Predicted Values for Model Plotting – 2}
 ```
 Overall the linear aggregated percent cover model estimates that eelgrass percent cover declines with increases in both PS-SSTA and AMS-SST, however slope standard error and the corresponding 95% confidence interval are quite large, especially for PS-SSTA. This relationship between PS-SSTA and percent cover is not consistent at each site, with the Fort Getty site displaying an opposing trend of increased percent cover at higher SST anomalies, despite the nearby T-Dock site also located in Narragansett Bay staying in line with the overall negative trend. Duck Harbor and Pleasant Bay, both located on Cape Cod, MA  are the only two sites with multiple SST anomalies below a -1°C, with 4 at each out of 109 total measurements. As a result, confidence intervals are very wide for all other sites in this lower anomaly range.
 
+```{=latex}
+\begin{center}
+\begin{tabular}{rl}
+\textbf{a)} &
+```
 
-a)
 ```{r Visualize Aggregated Percent Cover Model - Linear 1}
 ```
 
-b)
+```{=latex}
+\\[1em]
+\textbf{b)} &
+```
+
 ```{r Visualize Aggregated Percent Cover Model - Linear 2}
+```
+
+```{=latex}
+\end{tabular}
+\end{center}
 ```
 *Figure 4 - Results from the linear aggregated percent cover model. a) Eelgrass percent cover predicted by Previous Summer SST Anomaly (PS-SSTA). Individual curves depict model predictions at distinct Average Mean Summer SSTs (AMS-SST) corresponding to those of each study site. Ribbons depict 95% confidence intervals, and points represent individual transect-year observations. b) Eelgrass percent cover predicted by PS-SSTA for each study site, with 95% confidence intervals. Points represent individual transect-year observations.*
 
@@ -146,12 +184,26 @@ tidy(eelgrass_pc_glmm) |>
 
 The non-linear spline model shows eelgrass percent cover quickly dropping off from high values around -2°C PS-SSTA to much lower values around -0.5°C, and then largely leveling off. Notably, this same initial trend of decreasing percent cover with increasing PS-SSTA between -2°C and -0.5°C is shown at all sites, however the trend then flips at Fort Getty and Pleasant Bay with percent cover increasing as PS-SSTA increases. Meanwhile the negative trend continues at the T-Dock site, rather than leveling off as seen in the overall model and at the other 5 sites. The spline model appears to be even more heavily influenced by the high percent cover, low SST anomaly measurements at Duck Harbor and Pleasant Bay. Regarding average mean summer temperature, a trend of decreasing percent cover with increasing AMS-SST similar to that of the linear model is seen, which is logical as no spline transformation was applied to the AMS-SST.  
 
-a)
+```{=latex}
+\begin{center}
+\begin{tabular}{rl}
+\textbf{a)} &
+```
+
 ```{r Visualize Aggregated Percent Cover Model - Spline 1}
 ```
 
-b)
+```{=latex}
+\\[1em]
+\textbf{b)} &
+```
+
 ```{r Visualize Aggregated Percent Cover Model - Spline 2}
+```
+
+```{=latex}
+\end{tabular}
+\end{center}
 ```
 *Figure 5 - Results from the non-linear aggregated percent cover spline model. a) Eelgrass percent cover predicted by Previous Summer SST Anomaly (PS-SSTA). Individual curves depict model predictions at distinct Average Mean Summer SSTs (AMS-SST) corresponding to those of each study site. Ribbons depict 95% confidence intervals, and points represent individual transect-year observations. b) Eelgrass percent cover predicted by PS-SSTA for each study site, with 95% confidence intervals. Points represent individual transect-year observations.*
 
@@ -169,7 +221,7 @@ tidy(eelgrass_pc_glmm_3) |>
 ```
 *Table 2 - Summary statistics for the non-linear aggregated percent cover spline model.*  
 
-### Results: Presence Absence Model
+## Results: Presence Absence Model
 ```{r Make Data Frame of Predicted Values for Model Plotting – 3}
 ```
 ```{r Make Binned Raw Data Frame for Plotting Proportions Present – 1}
@@ -184,12 +236,26 @@ The presence-absence model shows a decreasing probability of eelgrass presence w
 Once again trends vary between sites, with site-level model predictions generally follow the trend of observed data at each site. A consequence of this is the model predicts essentially 100% probability of eelgrass presence at Fort Getty and Salem Sound with an extremely narrow confidence interval, because very few quadrats exhibited a total absence of cover throughout the monitoring period.  
 
 
-a)
-```{r Visualize Presence Absence Model - 2}
+```{=latex}
+\begin{center}
+\begin{tabular}{rl}
+\textbf{a)} &
 ```
 
-b)
-```{r Visualize Presence Absence Model - 3}
+```{r Visualize Presence Absence Model - 2, fig.width=6, fig.height=4.7, fig.align='default', out.width='90%'}
+```
+
+```{=latex}
+\\[1em]
+\textbf{b)} &
+```
+
+```{r Visualize Presence Absence Model - 3, fig.width=6, fig.height=5, fig.align='default', out.width='90%'}
+```
+
+```{=latex}
+\end{tabular}
+\end{center}
 ```
 *Figure 6 - Results from the linear presence-absence model. a) Modeled probabilities of eelgrass presence predicted by Previous Summer SST Anomaly (PS-SSTA). Individual curves depict model predictions at distinct Average Mean Summer SSTs (AMS-SST) corresponding to those of each study site. Ribbons depict 95% confidence intervals, and grids represent actual proportions of presence within bins of site-years with similar SST ranges. b) Modeled probabilities of eelgrass presence predicted by PS-SSTA for each study site, with 95% confidence intervals. Grids represent actual proportions of presence within bins of site-years with similar SST ranges.*
 
@@ -203,11 +269,11 @@ library(kableExtra)
 tidy(eelgrass_pa_glmm) |> 
   mutate(across(estimate:p.value, ~round(., 3))) |>
   kable() |> 
-  kable_styling(font_size = 9)
+  kable_styling(font_size = 8)
 ```
 *Table 3 - Summary statistics for the linear presence-absence model.* 
 
-### Discussion  
+## Discussion  
 Neither of the linear models provided strong evidence to reject the null hypothesis that previous summer SST anomalies have no effect on eelgrass cover. The presence-absence model provided weak evidence ($p = 0.098$) that the null can be rejected, however this is caveated by the model’s failure to meet the assumption of homoscedasticity, likely due to a false assumption of linearity, spatial and temporal autocorrelation, or both. Plaisted et al. 2022 applied thin-plate regression splines to address non-linearity and found a correlation between previous summer water temperature anomalies and probability of presence, although did not find evidence for this same relationship with percent cover [@plaisted_influence_2022].  
 
 The non-linear percent cover spline model provided stronger evidence to reject the null hypothesis, however only for the lower ranges of SST anomalies ($p_1 = 0.024$, $p_2 = 0.002$, $p_3 = 0.343$). One way to interpret these results, in which percent cover values and presence are higher at SST anomalies below ~0.5°C, and subsequently more scattered above that temperature range, is that the -0.5°C anomaly represents a health threshold for eelgrass adapted to their local environment. While it may seem illogical for the threshold to be below 0, this could be explained by warming having already occurred prior to the study period. For example, the Gulf of Maine is known to have been warming for at least the last five decades [@seidov_recent_2021]. The AMS-SST values in this study may already be above ideal conditions for northeastern eelgrass populations. Optimal temperatures for temperate eelgrass photosynthesis vary by population but have been estimated to be around 23°C [@lee_effects_2007], the upper range of the AMS-SST values measured in this study. This interpretation is further supported by the comparison between JPL satellite SST measurements and in-situ measurements used in the Plaisted et al. 2022 analysis (Figure 2), which show the SST measurements in this analysis to be consistently 2-7°C cooler than in-situ measurements, except in the case of Salem Sound which is known to be a deeper eelgrass bed.  
@@ -217,10 +283,14 @@ An alternative explanation of the stronger findings in the low temperature anoma
 One counterintuitive observation is the opposing percent cover trends between the Fort Getty and T-Dock sites, given their proximity and shared location in Narragansett Bay. Across all sites, local conditions may explain the differing trends relative to SST anomalies, however given Fort Getty and T-Dock were the two most proximal sites, I did not expect differences to be so pronounced between these two locations. This finding suggests there may be more granular factors controlling eelgrass cover in Narragansett Bay, such as boating activity or sediment movement.
 
 
-### Conclusions  
+## Conclusions  
 This analysis attempted to establish a causal connection between remotely sensed SST anomalies and changes to eelgrass cover along the northeastern U.S. coast by applying a Mundlak regression approach. While linear models predicting percent cover and probability of presence provided little to no evidence to reject the null hypothesis that previous summer SST anomalies have no effect on eelgrass cover, a non-linear spline model provided strong evidence to reject the null in the lower temperature anomaly range (< -0.5°C), however these results are caveated by the fact that the majority of data in the lowest SST anomaly range came from a select few sites, and thus the findings may be inappropriate to apply to northeast eelgrass populations without further analysis.
 
-### References
+```{=latex}
+\newpage
+```
+
+## References
 
 :::{#refs}
 :::
